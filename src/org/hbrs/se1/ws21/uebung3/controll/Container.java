@@ -4,10 +4,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.nio.file.attribute.PosixFilePermission;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -23,7 +21,7 @@ public class Container {
 
     private Container() { // Speicher wird erst ab aufruf des Konstruktor initialisieren .
         speicher = new LinkedList<>();
-        this.fileLocation = "C:\\Users\\tomke\\Documents\\GitHub\\codesSE2021\\out\\test.txt";
+        this.fileLocation = "out\\ContainerData";
     }
 
     public void setFileLocation(String fileLocation) {
@@ -38,29 +36,18 @@ public class Container {
     }
 
     public void store() throws PersistenceException {
-        FileOutputStream fos;
-        ObjectOutputStream oos;
+        if(speicher == null){
+            throw new IllegalArgumentException();
+        }
         try{
-            fos = new FileOutputStream(fileLocation);
-            oos = new ObjectOutputStream(fos);
+            FileOutputStream fos = new FileOutputStream(fileLocation);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(speicher);
             oos.flush();
+            fos.close();
             oos.close();
         }catch(IOException e){
             throw new PersistenceException(ExceptionType.ConnectionNotAvailable, "File was not found");
-        }finally{
-            oos.close();
-            fos.close();
-        }
-    }
-
-    public static void main(String[] args) {
-        Container c = Container.getInstance();
-        try {
-            c.load();
-        } catch (PersistenceException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         }
     }
 
@@ -80,14 +67,6 @@ public class Container {
             throw new PersistenceException(ExceptionType.ConnectionNotAvailable, "File not readable");
         } catch (ClassNotFoundException e) {
             throw new PersistenceException(ExceptionType.ConnectionNotAvailable, "Class not readable");
-        }finally{
-            try {
-                fis.close();
-                ois.close();
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
         }
 
         if(fileContent instanceof List){
