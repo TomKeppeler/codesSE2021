@@ -13,7 +13,6 @@ import org.hbrs.se1.ws21.uebung2.controll.Container;
 import org.hbrs.se1.ws21.uebung2.controll.Member;
 import org.hbrs.se1.ws21.uebung2.controll.exceptions.ContainerException;
 import org.hbrs.se1.ws21.uebung2.view.*;
-
 public class TestContainer {
     Container container;
     Member[] testCases = new Member[4];
