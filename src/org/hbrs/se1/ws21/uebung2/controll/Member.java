@@ -1,4 +1,4 @@
-package org.hbrs.se1.ws21.uebung2;
+package org.hbrs.se1.ws21.uebung2.controll;
 
 public interface Member {
 
