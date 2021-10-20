@@ -17,7 +17,6 @@ public class PersistenceStrategyMongoDB<Member> implements PersistenceStrategy<M
     @Override
     public void save(List<Member> member) {
         throw new java.lang.UnsupportedOperationException("Not implemented!");
-
     }
 
     @Override
