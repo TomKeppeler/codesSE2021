@@ -1,4 +1,4 @@
-package org.hbrs.se1.ws21.uebung3.persistence;
+package org.hbrs.se1.ws21.uebung3.controll.persistence;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;

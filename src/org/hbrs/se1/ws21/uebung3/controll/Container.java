@@ -1,21 +1,105 @@
 package org.hbrs.se1.ws21.uebung3.controll;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.nio.file.attribute.PosixFilePermission;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
 import org.hbrs.se1.ws21.uebung2.controll.exceptions.ContainerException;
+import org.hbrs.se1.ws21.uebung3.controll.persistence.PersistenceException;
+import org.hbrs.se1.ws21.uebung3.controll.persistence.PersistenceException.ExceptionType;
 
 public class Container {
-
+    private static Container singleInstance = null;
     private List<Member> speicher; // Im speicher werden die Member Elemente gespeichert.
+    private String fileLocation;
 
-    public Container() { // Speicher wird erst ab aufruf des Konstruktor initialisieren .
+    private Container() { // Speicher wird erst ab aufruf des Konstruktor initialisieren .
         speicher = new LinkedList<>();
+        this.fileLocation = "C:\\Users\\tomke\\Documents\\GitHub\\codesSE2021\\out\\test.txt";
+    }
+
+    public void setFileLocation(String fileLocation) {
+        this.fileLocation = fileLocation;
+    }
+
+    public static Container getInstance() {
+        if (singleInstance == null) {
+            singleInstance = new Container();
+        }
+        return singleInstance;
+    }
+
+    public void store() throws PersistenceException {
+        FileOutputStream fos;
+        ObjectOutputStream oos;
+        try{
+            fos = new FileOutputStream(fileLocation);
+            oos = new ObjectOutputStream(fos);
+            oos.writeObject(speicher);
+            oos.flush();
+            oos.close();
+        }catch(IOException e){
+            throw new PersistenceException(ExceptionType.ConnectionNotAvailable, "File was not found");
+        }finally{
+            oos.close();
+            fos.close();
+        }
+    }
+
+    public static void main(String[] args) {
+        Container c = Container.getInstance();
+        try {
+            c.load();
+        } catch (PersistenceException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    public void load() throws PersistenceException {
+        FileInputStream fis;
+        ObjectInputStream ois;
+        Object fileContent;
+        try {
+            fis = new FileInputStream(fileLocation);
+            ois = new ObjectInputStream(fis);
+            fileContent = ois.readObject();
+            fis.close();
+            ois.close();
+        } catch (FileNotFoundException e) {
+            throw new PersistenceException(ExceptionType.ConnectionNotAvailable, "File was not found");
+        } catch (IOException ioe) {
+            throw new PersistenceException(ExceptionType.ConnectionNotAvailable, "File not readable");
+        } catch (ClassNotFoundException e) {
+            throw new PersistenceException(ExceptionType.ConnectionNotAvailable, "Class not readable");
+        }finally{
+            try {
+                fis.close();
+                ois.close();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+
+        if(fileContent instanceof List){
+            speicher = (LinkedList<Member>)fileContent;
+        }else{
+            throw new PersistenceException(ExceptionType.ConnectionNotAvailable, "Not a Class of LinkedList<Member>");
+        }
+        
     }
 
     public void addMember(Member member) throws ContainerException {
-        if(member == null){// NullPointerException abfangen.
+        if (member == null) {// NullPointerException abfangen.
             throw new IllegalArgumentException();
         }
         if (speicher.contains(member)) {// Wenn das Member Element schon im speicher vorhanden ist wird die
@@ -30,19 +114,20 @@ public class Container {
             if (Objects.equals(member.getID(), id)) {// Suche nach dem Element im speicher.
                 speicher.remove(member);// Loeschung des Elements aus dem Speicher.
                 return String.format("Geloescht:[%s]", member.toString());
-            }// eine Exception zu werfen wäre natürlich eindeutiger da sie auch abgefangen werden kann.
+            } // eine Exception zu werfen wäre natürlich eindeutiger da sie auch abgefangen
+              // werden kann.
         }
         return String.format("Member Element (%d) nicht vorhanden", id);// kein zu löschendes Element im speicher
                                                                         // gefunden.
     }
 
-    public void dump(){
+    public void dump() {
         for (Member member : speicher) {
             System.out.println(member.toString());
         }
     }
 
-    public int size(){// Anzahl der Inhalte im Speicher.
+    public int size() {// Anzahl der Inhalte im Speicher.
         return speicher.size();
     }
 }
