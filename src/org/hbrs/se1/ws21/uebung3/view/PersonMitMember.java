@@ -1,9 +1,10 @@
 package org.hbrs.se1.ws21.uebung3.view;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Random;
 
-public class PersonMitMember implements org.hbrs.se1.ws21.uebung2.controll.Member{
+public class PersonMitMember implements org.hbrs.se1.ws21.uebung3.controll.Member{
     private String name;
     private String vorname;
     private Date gebDate;

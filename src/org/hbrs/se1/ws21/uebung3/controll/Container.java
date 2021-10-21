@@ -6,7 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.LinkedList;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -16,11 +17,11 @@ import org.hbrs.se1.ws21.uebung3.controll.persistence.PersistenceException.Excep
 
 public class Container {
     private static Container singleInstance = null;
-    private List<Member> speicher; // Im speicher werden die Member Elemente gespeichert.
+    private ArrayList<Member> speicher; // Im speicher werden die Member Elemente gespeichert.
     private String fileLocation;
 
     private Container() { // Speicher wird erst ab aufruf des Konstruktor initialisieren .
-        speicher = new LinkedList<>();
+        speicher = new ArrayList<>();
         this.fileLocation = "out\\ContainerData";
     }
 
@@ -36,18 +37,19 @@ public class Container {
     }
 
     public void store() throws PersistenceException {
-        if(speicher == null){
+        if (speicher == null) {
             throw new IllegalArgumentException();
         }
-        try{
+        try {
             FileOutputStream fos = new FileOutputStream(fileLocation);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(speicher);
             oos.flush();
             fos.close();
             oos.close();
-        }catch(IOException e){
-            throw new PersistenceException(ExceptionType.ConnectionNotAvailable, "File was not found");
+        } catch (IOException e) {
+            throw new PersistenceException(ExceptionType.ConnectionNotAvailable,
+                    String.format("Location was not found. At %s", fileLocation));
         }
     }
 
@@ -69,12 +71,12 @@ public class Container {
             throw new PersistenceException(ExceptionType.ConnectionNotAvailable, "Class not readable");
         }
 
-        if(fileContent instanceof List){
-            speicher = (LinkedList<Member>)fileContent;
-        }else{
+        if (fileContent instanceof List) {
+            speicher = (ArrayList<Member>) fileContent;
+        } else {
             throw new PersistenceException(ExceptionType.ConnectionNotAvailable, "Not a Class of LinkedList<Member>");
         }
-        
+
     }
 
     public void addMember(Member member) throws ContainerException {
