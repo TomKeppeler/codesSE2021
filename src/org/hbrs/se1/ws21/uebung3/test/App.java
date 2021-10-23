@@ -19,6 +19,19 @@ public class App {
             e.printStackTrace();
         }
         System.out.println(containerInstanc.size());
+        try {
+            containerInstanc.addMember(new PersonMitMember());
+        } catch (ContainerException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }       
+        System.out.println(containerInstanc.size());
+        try {
+            containerInstanc.store();
+        } catch (PersistenceException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
     private static void testStore(){
         Container containerInstanc = Container.getInstance();
@@ -37,5 +50,6 @@ public class App {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        System.out.println(containerInstanc.size());
     }
 }

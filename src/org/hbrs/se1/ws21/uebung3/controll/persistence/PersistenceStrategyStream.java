@@ -2,16 +2,20 @@ package org.hbrs.se1.ws21.uebung3.controll.persistence;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import java.util.List;
 
+import org.hbrs.se1.ws21.uebung3.controll.persistence.PersistenceException.ExceptionType;
+
 public class PersistenceStrategyStream<Member> implements PersistenceStrategy<Member> {
 
     // URL of file, in which the objects are stored
-    private String location = "objects.ser";
-
+    private String location = "out\\objects.ser";
+    private ObjectOutputStream outputFile = null;
+    private ObjectInputStream inputFile = null;
     // Backdoor method used only for testing purposes, if the location should be changed in a Unit-Test
     // Example: Location is a directory (Streams do not like directories, so try this out ;-)!
     public void setLocation(String location) {
@@ -25,7 +29,12 @@ public class PersistenceStrategyStream<Member> implements PersistenceStrategy<Me
      * and save
      */
     public void openConnection() throws PersistenceException {
-
+        try{
+            outputFile = new ObjectOutputStream(new FileOutputStream(location));
+            inputFile = new ObjectInputStream(new FileInputStream(location));
+        }catch(IOException e){
+            throw new PersistenceException(ExceptionType.ConnectionNotAvailable, "Incorect file location.");
+        }
     }
 
     @Override

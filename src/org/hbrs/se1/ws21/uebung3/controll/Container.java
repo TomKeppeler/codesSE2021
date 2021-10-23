@@ -6,7 +6,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -101,13 +100,9 @@ public class Container {
         return String.format("Member Element (%d) nicht vorhanden", id);// kein zu löschendes Element im speicher
                                                                         // gefunden.
     }
-
-    public void dump() {
-        for (Member member : speicher) {
-            System.out.println(member.toString());
-        }
+    public List<Member> getCurrentList() {
+        return speicher;
     }
-
     public int size() {// Anzahl der Inhalte im Speicher.
         return speicher.size();
     }

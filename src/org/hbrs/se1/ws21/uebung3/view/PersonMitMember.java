@@ -11,7 +11,7 @@ public class PersonMitMember implements org.hbrs.se1.ws21.uebung3.controll.Membe
     private String hobby;
     private Double groesse;
     private Geschlecht geschlecht;
-
+    public PersonMitMember(){}
     public PersonMitMember(String name, String vorname, Date gebDate, String hobby, Double groesse, Geschlecht geschlecht) {
         this.name = name;
         this.vorname = vorname;
