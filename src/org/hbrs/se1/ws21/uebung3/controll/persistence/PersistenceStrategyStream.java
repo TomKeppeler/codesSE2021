@@ -9,7 +9,6 @@ import java.io.ObjectOutputStream;
 import java.util.List;
 
 import org.hbrs.se1.ws21.uebung3.controll.persistence.PersistenceException.ExceptionType;
-import org.junit.jupiter.api.parallel.ExecutionMode;
 
 public class PersistenceStrategyStream<Member> implements PersistenceStrategy<Member> {
 
@@ -27,11 +26,6 @@ public class PersistenceStrategyStream<Member> implements PersistenceStrategy<Me
     }
 
     @Override
-    /**
-     * Method for opening the connection to a stream (here: Input- and
-     * Output-Stream) In case of having problems while opening the streams, leave
-     * the code in methods load and save
-     */
     public void openConnection() throws PersistenceException {
         try {
             outputFile = new ObjectOutputStream(new FileOutputStream(location));
@@ -50,8 +44,7 @@ public class PersistenceStrategyStream<Member> implements PersistenceStrategy<Me
             outputFile.close();
             inputFile.close();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            throw new PersistenceException(ExceptionType.ConnectionNotAvailable, "File save error.");
         }
     }
 
@@ -69,30 +62,13 @@ public class PersistenceStrategyStream<Member> implements PersistenceStrategy<Me
     }
 
     @Override
-    /**
-     * Method for loading a list of Member-objects from a disk (HDD) Some coding
-     * examples come for free :-) Take also a look at the import statements above
-     * ;-!
-     */
     public List<Member> load() throws PersistenceException {
-        // Some Coding hints ;-)
-        // ObjectInputStream ois = null;
-        // FileInputStream fis = null;
-        // List<...> newListe = null;
-        //
-        // Initiating the Stream (can also be moved to method openConnection()... ;-)
-        // fis = new FileInputStream( " a location to a file" );
-        // ois = new ObjectInputStream(fis);
-
-        // Reading and extracting the list (try .. catch ommitted here)
-        // Object obj = ois.readObject();
-
-        // if (obj instanceof List<?>) {
-        // newListe = (List) obj;
-        // return newListe
-
-        // and finally close the streams (guess where this could be...?)
-        
-        return null;
+        Object list = null;
+        try{
+            list = inputFile.readObject();
+        }catch(IOException | ClassNotFoundException cfe){
+            throw new PersistenceException(ExceptionType.ConnectionNotAvailable, "File load error.");
+        }
+        return (List<Member>)list;
     }
 }
