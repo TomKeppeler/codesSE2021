@@ -17,10 +17,6 @@ public class PersistenceStrategyStream<Member> implements PersistenceStrategy<Me
     private ObjectOutputStream outputFile = null;
     private ObjectInputStream inputFile = null;
 
-    // Backdoor method used only for testing purposes, if the location should be
-    // changed in a Unit-Test
-    // Example: Location is a directory (Streams do not like directories, so try
-    // this out ;-)!
     public void setLocation(String location) {
         this.location = location;
     }
@@ -63,12 +59,10 @@ public class PersistenceStrategyStream<Member> implements PersistenceStrategy<Me
 
     @Override
     public List<Member> load() throws PersistenceException {
-        Object list = null;
         try{
-            list = inputFile.readObject();
+            return (List<Member>)inputFile.readObject();
         }catch(IOException | ClassNotFoundException cfe){
             throw new PersistenceException(ExceptionType.ConnectionNotAvailable, "File load error.");
         }
-        return (List<Member>)list;
     }
 }

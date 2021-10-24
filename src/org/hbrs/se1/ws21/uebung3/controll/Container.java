@@ -29,12 +29,15 @@ public class Container {
     }
 
     public void store() throws PersistenceException {
+        persistenceStrategy.openConnection();
         persistenceStrategy.save(speicher);
+        persistenceStrategy.closeConnection();
     }
 
     public void load() throws PersistenceException {
+        persistenceStrategy.openConnection();
         speicher = (ArrayList<Member>) persistenceStrategy.load();
-        
+        persistenceStrategy.closeConnection();
     }
 
     public void addMember(Member member) throws ContainerException {
