@@ -7,6 +7,7 @@ import java.util.Objects;
 import org.hbrs.se1.ws21.uebung2.controll.exceptions.ContainerException;
 import org.hbrs.se1.ws21.uebung3.controll.persistence.PersistenceException;
 import org.hbrs.se1.ws21.uebung3.controll.persistence.PersistenceStrategy;
+import org.hbrs.se1.ws21.uebung3.controll.persistence.PersistenceException.ExceptionType;
 
 public class Container {
     private static Container singleInstance = null;
@@ -29,12 +30,18 @@ public class Container {
     }
 
     public void store() throws PersistenceException {
+        if(persistenceStrategy == null){
+            throw new PersistenceException(ExceptionType.NoStrategyIsSet, "Persistence strategy was never set.")
+        }
         persistenceStrategy.openConnection();
         persistenceStrategy.save(speicher);
         persistenceStrategy.closeConnection();
     }
 
     public void load() throws PersistenceException {
+        if(persistenceStrategy == null){
+            throw new PersistenceException(ExceptionType.NoStrategyIsSet, "Persistence strategy was never set.")
+        }
         persistenceStrategy.openConnection();
         speicher = (ArrayList<Member>) persistenceStrategy.load();
         persistenceStrategy.closeConnection();
