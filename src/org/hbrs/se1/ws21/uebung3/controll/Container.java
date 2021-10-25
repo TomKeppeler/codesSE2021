@@ -1,5 +1,6 @@
 package org.hbrs.se1.ws21.uebung3.controll;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -31,7 +32,7 @@ public class Container {
 
     public void store() throws PersistenceException {
         if(persistenceStrategy == null){
-            throw new PersistenceException(ExceptionType.NoStrategyIsSet, "Persistence strategy was never set.")
+            throw new PersistenceException(ExceptionType.NoStrategyIsSet, "Persistence strategy was never set.");
         }
         persistenceStrategy.openConnection();
         persistenceStrategy.save(speicher);
@@ -40,7 +41,7 @@ public class Container {
 
     public void load() throws PersistenceException {
         if(persistenceStrategy == null){
-            throw new PersistenceException(ExceptionType.NoStrategyIsSet, "Persistence strategy was never set.")
+            throw new PersistenceException(ExceptionType.NoStrategyIsSet, "Persistence strategy was never set.");
         }
         persistenceStrategy.openConnection();
         speicher = (ArrayList<Member>) persistenceStrategy.load();

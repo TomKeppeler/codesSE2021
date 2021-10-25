@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.hbrs.se1.ws21.uebung3.controll.*;
 import org.hbrs.se1.ws21.uebung3.controll.persistence.PersistenceException;
+import org.hbrs.se1.ws21.uebung3.controll.persistence.PersistenceStrategyMongoDB;
 import org.hbrs.se1.ws21.uebung3.controll.persistence.PersistenceException.ExceptionType;
 import org.hbrs.se1.ws21.uebung3.view.AutoMitMember;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,6 +31,7 @@ public class TestContainer {
 
     @Test
     public void setPersistenceStrategyMongoDBTest(){
-        testContainer.setPersistenceStrategy(persistenceStrategy);
+        testContainer.setPersistenceStrategy(new PersistenceStrategyMongoDB<Member>());
+
     }
 }
