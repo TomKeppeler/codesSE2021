@@ -2,6 +2,7 @@ package org.hbrs.se1.ws21.uebung3.test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Random;
 
@@ -56,13 +57,13 @@ public class TestContainer {
 
     @Test
     public void useCaseSenarioTest() {
-        
+        testContainer.setPersistenceStrategy(new PersistenceStrategyStream());
         for (Member member : testCases) {
             try {
                 testContainer.addMember(member);
             } catch (ContainerException e) {
                 // TODO Auto-generated catch block
-                e.printStackTrace();
+                assertTrue(false);
             }            
         }
         assertEquals(100, testContainer.size());
@@ -70,15 +71,17 @@ public class TestContainer {
             testContainer.store();
         } catch (PersistenceException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            assertTrue(false);
         }
         assertEquals(100, testContainer.size());
         try {
             testContainer.load();
         } catch (PersistenceException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            assertTrue(false);
         }
+        assertEquals(100, testContainer.size());
+
         for (int i = 99; i > -1; i--) {
             assertEquals(i+1, testContainer.size());
             testContainer.deleteMember(testCases[i].getID());
@@ -87,14 +90,14 @@ public class TestContainer {
                 testContainer.store();
             } catch (PersistenceException e) {
                 // TODO Auto-generated catch block
-                e.printStackTrace();
+                assertTrue(false);
             }
             assertEquals(i, testContainer.size());
             try {
                 testContainer.load();
             } catch (PersistenceException e) {
                 // TODO Auto-generated catch block
-                e.printStackTrace();
+                assertTrue(false);
             }
             assertEquals(i, testContainer.size());
         }
