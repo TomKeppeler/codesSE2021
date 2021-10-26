@@ -1,11 +1,15 @@
 package org.hbrs.se1.ws21.uebung3.controll.persistence;
 
+import java.io.ByteArrayOutputStream;
+import java.io.EOFException;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.hbrs.se1.ws21.uebung3.controll.Member;
@@ -17,35 +21,46 @@ public class PersistenceStrategyStream implements PersistenceStrategy<Member> {
     private String location = "out\\objects.ser";
     private ObjectOutputStream outputFile = null;
     private ObjectInputStream inputFile = null;
-    private boolean connected = false;
-
+    private FileInputStream fis = null;
+    private boolean connection = false;
+    private ByteArrayOutputStream baos = null;
     public void setLocation(String location) {
         this.location = location;
     }
 
     @Override
     public void openConnection() throws PersistenceException {
-        if (!connected) {
+        if (!connection) {
             try {
-                outputFile = new ObjectOutputStream(new FileOutputStream(location));
-                inputFile = new ObjectInputStream(new FileInputStream(location));
+                File localFile = new File(location);
+                if(!localFile.exists()){
+                    ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(localFile));
+                    oos.writeObject(new ArrayList<>());
+                    oos.close();
+                } 
+                baos = new ByteArrayOutputStream();
+                outputFile = new ObjectOutputStream(baos);
+                fis = new FileInputStream(localFile);
+                inputFile = new ObjectInputStream(fis);
             } catch (IOException e) {
                 throw new PersistenceException(ExceptionType.ConnectionNotAvailable, "Incorect file location.");
             }
-            connected = true;
+            connection = true;
         }
     }
 
     @Override
     public void closeConnection() throws PersistenceException {
-        if (connected) {
+        if (connection) {
             try {
                 outputFile.close();
+                baos.close();
                 inputFile.close();
+                fis.close();
             } catch (IOException e) {
                 throw new PersistenceException(ExceptionType.ConnectionNotAvailable, "File save error.");
             }
-            connected = false;
+            connection = false;
         }
     }
 
@@ -61,7 +76,7 @@ public class PersistenceStrategyStream implements PersistenceStrategy<Member> {
 
     @Override
     public List<Member> load() throws PersistenceException {
-        if (connected) {
+        if (connection) {
             try {
                 Object obj = inputFile.readObject();
                 if (obj instanceof List<?>) {
