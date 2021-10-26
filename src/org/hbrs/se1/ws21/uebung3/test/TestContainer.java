@@ -30,7 +30,7 @@ public class TestContainer {
     public void noPersistenceStrategySetTest() {
         PersistenceException thrownException = assertThrows(PersistenceException.class, () -> testContainer.store());
         assertEquals(ExceptionType.NoStrategyIsSet, thrownException.getExceptionTypeType());
-    }
+    }h
 
     @Test
     public void setPersistenceStrategyMongoDBTest() {
