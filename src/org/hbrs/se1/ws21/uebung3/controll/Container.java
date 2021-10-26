@@ -23,6 +23,10 @@ public class Container {
         this.persistenceStrategy = persistenceStrategy;
     }
 
+    public PersistenceStrategy<Member> getPersistenceStrategy() {
+        return persistenceStrategy;
+    }
+
     public static Container getInstance() {
         if (singleInstance == null) {
             singleInstance = new Container();
@@ -31,7 +35,7 @@ public class Container {
     }
 
     public void store() throws PersistenceException {
-        if(persistenceStrategy == null){
+        if (persistenceStrategy == null) {
             throw new PersistenceException(ExceptionType.NoStrategyIsSet, "Persistence strategy was never set.");
         }
         persistenceStrategy.openConnection();
@@ -40,7 +44,7 @@ public class Container {
     }
 
     public void load() throws PersistenceException {
-        if(persistenceStrategy == null){
+        if (persistenceStrategy == null) {
             throw new PersistenceException(ExceptionType.NoStrategyIsSet, "Persistence strategy was never set.");
         }
         persistenceStrategy.openConnection();

@@ -62,9 +62,12 @@ public class PersistenceStrategyStream implements PersistenceStrategy<Member> {
     @Override
     public List<Member> load() throws PersistenceException {
         try {
-            return (List<Member>) inputFile.readObject();
+            if(inputFile.readObject() instanceof List<?>){
+                return (List<Member>) inputFile.readObject();
+            }
         } catch (IOException | ClassNotFoundException cfe) {
             throw new PersistenceException(ExceptionType.ConnectionNotAvailable, cfe.getMessage());
         }
+        return null;
     }
 }
