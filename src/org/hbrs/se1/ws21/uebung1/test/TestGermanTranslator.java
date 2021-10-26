@@ -18,7 +18,7 @@ public class TestGermanTranslator {
     @Test
     public void testGermanTranslator(){
         assertEquals("Übersetzung der Zahl -1 nicht möglich (1,0)", t1.translateNumber(-1));
-        assertEquals("Übersetzung der Zahl 11 nicht möglich (" + Translator.version + ")", t1.translateNumber(11));
+        assertEquals(String.format("Übersetzung der Zahl 11 nicht möglich (%.1f)", Translator.version), t1.translateNumber(11));
         for (int i = 1; i < 11; i++) {
             assertEquals(zahlenUebersetzt[i-1], t1.translateNumber(i));
         }

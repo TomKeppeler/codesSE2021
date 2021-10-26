@@ -5,7 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hbrs.se1.ws21.uebung3.controll.Member;
@@ -18,7 +18,7 @@ public class PersistenceStrategyStream implements PersistenceStrategy<Member> {
     private ObjectOutputStream outputFile = null;
     private ObjectInputStream inputFile = null;
     private boolean connected = false;
-    
+
     public void setLocation(String location) {
         this.location = location;
     }
@@ -61,13 +61,16 @@ public class PersistenceStrategyStream implements PersistenceStrategy<Member> {
 
     @Override
     public List<Member> load() throws PersistenceException {
-        try {
-            if(inputFile.readObject() instanceof List<?>){
-                return (List<Member>) inputFile.readObject();
+        if (connected) {
+            try {
+                Object obj = inputFile.readObject();
+                if (obj instanceof List<?>) {
+                    return (List<Member>) obj;
+                }
+            } catch (IOException | ClassNotFoundException cfe) {
+                throw new PersistenceException(ExceptionType.ConnectionNotAvailable, cfe.getMessage());
             }
-        } catch (IOException | ClassNotFoundException cfe) {
-            throw new PersistenceException(ExceptionType.ConnectionNotAvailable, cfe.getMessage());
         }
-        return null;
+        return new ArrayList<>();
     }
 }

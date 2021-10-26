@@ -12,6 +12,7 @@ public class AutoMitMember implements Member{
     private String typ;
     private String besitzer;
     private Double leistung;
+    private int id = new Random().nextInt(999999);
     public AutoMitMember(){
     }
     public AutoMitMember(Integer anzahlAchsen, Integer anzahlReifen, String marke, String typ, String besitzer, Double leistung) {
@@ -25,7 +26,7 @@ public class AutoMitMember implements Member{
 
     @Override
     public Integer getID() {
-        return new Random().nextInt(999999);
+        return id;
     }
     @Override
     public String toString() {

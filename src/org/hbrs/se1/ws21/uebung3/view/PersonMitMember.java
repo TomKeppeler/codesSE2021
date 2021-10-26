@@ -11,6 +11,7 @@ public class PersonMitMember implements org.hbrs.se1.ws21.uebung3.controll.Membe
     private String hobby;
     private Double groesse;
     private Geschlecht geschlecht;
+    private int id = new Random().nextInt(999999);
     public PersonMitMember(){}
     public PersonMitMember(String name, String vorname, Date gebDate, String hobby, Double groesse, Geschlecht geschlecht) {
         this.name = name;
@@ -71,7 +72,7 @@ public class PersonMitMember implements org.hbrs.se1.ws21.uebung3.controll.Membe
 
     @Override
     public Integer getID() {
-        return new Random().nextInt(999999);
+        return id;
     }
 
     @Override

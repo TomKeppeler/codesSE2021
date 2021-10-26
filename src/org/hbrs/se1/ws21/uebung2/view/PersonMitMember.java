@@ -2,15 +2,17 @@ package org.hbrs.se1.ws21.uebung2.view;
 
 import java.util.Date;
 import java.util.Random;
+import org.hbrs.se1.ws21.uebung2.controll.Member;
 
-public class PersonMitMember implements org.hbrs.se1.ws21.uebung2.controll.Member{
+public class PersonMitMember implements Member{
     private String name;
     private String vorname;
     private Date gebDate;
     private String hobby;
     private Double groesse;
     private Geschlecht geschlecht;
-
+    private int id = new Random().nextInt(999999);
+    public PersonMitMember(){}
     public PersonMitMember(String name, String vorname, Date gebDate, String hobby, Double groesse, Geschlecht geschlecht) {
         this.name = name;
         this.vorname = vorname;
@@ -70,7 +72,7 @@ public class PersonMitMember implements org.hbrs.se1.ws21.uebung2.controll.Membe
 
     @Override
     public Integer getID() {
-        return new Random().nextInt(999999);
+        return id;
     }
 
     @Override

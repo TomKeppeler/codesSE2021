@@ -11,7 +11,7 @@ public class GermanTranslator implements Translator {
 		uebersetzteZahlen.put(3, "drei");
 		uebersetzteZahlen.put(4, "vier");
 		uebersetzteZahlen.put(5, "fünf");
-		uebersetzteZahlen.put(6, "sech");
+		uebersetzteZahlen.put(6, "sechs");
 		uebersetzteZahlen.put(7, "sieben");
 		uebersetzteZahlen.put(8, "acht");
 		uebersetzteZahlen.put(9, "neun");

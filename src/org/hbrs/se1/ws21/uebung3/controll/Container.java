@@ -1,6 +1,5 @@
 package org.hbrs.se1.ws21.uebung3.controll;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -35,7 +34,7 @@ public class Container {
     }
 
     public void store() throws PersistenceException {
-        if (persistenceStrategy == null) {
+        if (!(persistenceStrategy instanceof PersistenceStrategy)) {
             throw new PersistenceException(ExceptionType.NoStrategyIsSet, "Persistence strategy was never set.");
         }
         persistenceStrategy.openConnection();
@@ -44,7 +43,7 @@ public class Container {
     }
 
     public void load() throws PersistenceException {
-        if (persistenceStrategy == null) {
+        if (!(persistenceStrategy instanceof PersistenceStrategy)) {
             throw new PersistenceException(ExceptionType.NoStrategyIsSet, "Persistence strategy was never set.");
         }
         persistenceStrategy.openConnection();
@@ -67,7 +66,7 @@ public class Container {
         for (Member member : speicher) {
             if (Objects.equals(member.getID(), id)) {// Suche nach dem Element im speicher.
                 speicher.remove(member);// Loeschung des Elements aus dem Speicher.
-                return String.format("Geloescht:[%s]", member.toString());
+                return String.format("Geloescht:[%s]", member.getID());
             } // eine Exception zu werfen wäre natürlich eindeutiger da sie auch abgefangen
               // werden kann.
         }

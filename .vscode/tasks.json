@@ -1,0 +1,20 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "java",
+			"mainClass": "org.hbrs.se1.ws21.uebung3.test.App",
+			"targetPath": "${workspaceFolder}/${workspaceFolderBasename}.jar",
+			"elements": [
+				"${compileOutput}",
+				"${dependencies}"
+			],
+			"problemMatcher": [],
+			"label": "java: exportjar:codesSE2021",
+			"group": {
+				"kind": "test",
+				"isDefault": true
+			}
+		}
+	]
+}

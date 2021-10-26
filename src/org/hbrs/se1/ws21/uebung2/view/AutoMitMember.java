@@ -1,5 +1,6 @@
 package org.hbrs.se1.ws21.uebung2.view;
 
+import java.io.Serializable;
 import java.util.Random;
 
 import org.hbrs.se1.ws21.uebung2.controll.Member;
@@ -11,6 +12,9 @@ public class AutoMitMember implements Member{
     private String typ;
     private String besitzer;
     private Double leistung;
+    private int id = new Random().nextInt(999999);
+    public AutoMitMember(){
+    }
     public AutoMitMember(Integer anzahlAchsen, Integer anzahlReifen, String marke, String typ, String besitzer, Double leistung) {
         this.anzahlAchsen = anzahlAchsen;
         this.anzahlReifen = anzahlReifen;
@@ -22,7 +26,7 @@ public class AutoMitMember implements Member{
 
     @Override
     public Integer getID() {
-        return new Random().nextInt(999999);
+        return id;
     }
     @Override
     public String toString() {

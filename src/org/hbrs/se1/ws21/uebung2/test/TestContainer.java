@@ -42,8 +42,8 @@ public class TestContainer {
         for (int i = 0; i < testCases.length; i++) {
             assertEquals(String.format("Geloescht:[%s]", testCases[i].getID()),
                     container.deleteMember(testCases[i].getID()));
-            assertEquals(container.size() - i, container.size());
         }
+        assertEquals(0, container.size());
         try {
             container.addMember(testCases[0]);
         } catch (ContainerException e) {
@@ -55,11 +55,6 @@ public class TestContainer {
 
     @Test
     public void addMemberAek2und3() {
-        try {
-            container.addMember(null);
-        } catch (ContainerException e) {
-            assertTrue(true);
-        }
-        assertEquals(1, 2);
+            assertThrows(IllegalArgumentException.class, () -> container.addMember(null));
     }
 }
