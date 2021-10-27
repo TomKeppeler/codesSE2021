@@ -24,7 +24,7 @@ public class App {
             }
         }
         try {
-            c.store(); 
+            c.store();
             System.out.println(c.size());
             c.load();
             System.out.println(c.size());
