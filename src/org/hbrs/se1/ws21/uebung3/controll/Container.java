@@ -5,15 +5,14 @@ import java.util.List;
 import java.util.Objects;
 
 import org.hbrs.se1.ws21.uebung2.controll.exceptions.ContainerException;
-import org.hbrs.se1.ws21.uebung3.controll.persistence.PersistenceException;
-import org.hbrs.se1.ws21.uebung3.controll.persistence.PersistenceStrategy;
+import org.hbrs.se1.ws21.uebung3.controll.persistence.*;
 import org.hbrs.se1.ws21.uebung3.controll.persistence.PersistenceException.ExceptionType;
 
 public class Container {
     private static Container singleInstance = null;
-    private ArrayList<Member> speicher; // Im speicher werden die Member Elemente gespeichert.
     private PersistenceStrategy<Member> persistenceStrategy = null;
-
+    
+    private ArrayList<Member> speicher; // Im speicher werden die Member Elemente gespeichert.
     private Container() { // Speicher wird erst ab aufruf des Konstruktor initialisieren .
         speicher = new ArrayList<>();
     }
