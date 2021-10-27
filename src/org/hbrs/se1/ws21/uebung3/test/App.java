@@ -37,12 +37,14 @@ public class App {
         }
         System.out.println("Größe nach Löschung von allen Elementen: " + c.size());
         try {
-            c.store();
+            System.out.println("Größe nach erneuten laden: " + c.size());
+            //c.store();
             c.load();
             System.out.println("Größe nach erneuten laden: " + c.size());
         } catch (PersistenceException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+
     } 
 }

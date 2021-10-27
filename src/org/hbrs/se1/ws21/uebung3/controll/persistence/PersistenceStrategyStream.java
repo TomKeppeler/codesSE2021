@@ -23,7 +23,8 @@ public class PersistenceStrategyStream implements PersistenceStrategy<Member> {
 
     /*
      * private ObjectOutputStream outputFile = null; private ObjectInputStream
-     * inputFile = null; private FileInputStream fis = null;
+     * inputFile = null; 
+     * private FileInputStream fis = null;
      * 
      * private ByteArrayOutputStream baos = null;
      */
