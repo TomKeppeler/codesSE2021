@@ -13,7 +13,7 @@ public class Container {
     private PersistenceStrategy<Member> persistenceStrategy = null;
     
     private ArrayList<Member> speicher; // Im speicher werden die Member Elemente gespeichert.
-    private Container() { // Speicher wird erst ab aufruf des Konstruktor initialisieren .
+    private Container() { // Speicher wird erst ab aufruf des Konstruktor initialisieren.
         speicher = new ArrayList<>();
     }
 
