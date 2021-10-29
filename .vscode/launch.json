@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch UserDialog",
+            "request": "launch",
+            "mainClass": "org.hbrs.se1.ws21.uebung4.view.UserDialog",
+            "projectName": "codesSE2021_699403e2"
+        },
+        {
+            "type": "java",
             "name": "Launch StreamTest",
             "request": "launch",
             "mainClass": "org.hbrs.se1.ws21.uebung3.test.StreamTest",
