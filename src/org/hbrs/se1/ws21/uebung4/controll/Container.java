@@ -59,9 +59,11 @@ public class Container<E extends Member> {
         if (member == null) {// NullPointerException abfangen.
             throw new IllegalArgumentException();
         }
-        if (speicher.contains(member)) {// Wenn das Member Element schon im speicher vorhanden ist wird die
-                                        // ConatinerException geworfen.
-            throw new ContainerException(member.getID());
+        for (E e : speicher) {
+            if(e.getID().equals(member.getID())){// Wenn das Member Element schon im speicher vorhanden ist wird die
+                                            // ConatinerException geworfen.
+                throw new ContainerException(member.getID());
+            }
         }
         speicher.add(member);// Member Element wird zum speicher hinzugefühgt.
     }

@@ -1,20 +1,32 @@
 package org.hbrs.se1.ws21.uebung4.controll;
 
 public class Mitarbeiter implements Member {
-    int id;
+    Integer id;
     String vorname;
     String nachname;
     String rolle;
     String abteil;
     int experLvl;
 
-    public Mitarbeiter(int id, String vorname, String nachname, String rolle, String abteil, int experLvl) {
+    public Mitarbeiter(Integer id, String vorname, String nachname, String rolle, String abteil, int experLvl) {
         this.id = id;
         this.vorname = vorname;
         this.nachname = nachname;
         this.rolle = rolle;
         this.abteil = abteil;
         this.experLvl = experLvl;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+            " id='" + getID() + "'" +
+            ", vorname='" + getVorname() + "'" +
+            ", nachname='" + getNachname() + "'" +
+            ", rolle='" + getRolle() + "'" +
+            ", abteil='" + getAbteil() + "'" +
+            ", experLvl='" + getExperLvl() + "'" +
+            "}";
     }
 
     @Override

@@ -1,6 +1,7 @@
 package org.hbrs.se1.ws21.uebung4.view;
 
 import java.io.InputStream;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import org.hbrs.se1.ws21.uebung4.controll.Container;
@@ -20,25 +21,46 @@ public class UserDialog {
         Scanner scan = new Scanner(in);
         boolean ende = false;
         String userInput = "";
-        System.out.println("Eingabe der Mitarbeiter:");
         do {
             userInput = scan.next().toLowerCase();
             switch (userInput) {
-            case "enter":
-                {   
-                    
-                    try{
-                        Integer.valueOf(i);
-                    }catch(NumberFormatException e){
-                        e.printStackTrace();
+            case "enter": {
+                int id = 0;
+                try {
+                    id = scan.nextInt();
+                } catch (NoSuchElementException e) {
+                    System.out.println("Es muss eine Zahl angegeben werden.");
+                }
+                String vname = scan.next();
+                String name = scan.next();
+                for (int i = 0; i < 10; i++) {
+                    if (vname.contains(i + "") || name.contains(i + "")) {
+                        System.out.println("Der Name darf keine Zahl enthalten.");
+                        break;
                     }
                 }
-                // ENTER [ID] [VORNAME] [NACHNAME] [ROLLE] [ABTEIL] [EXPERTISEN-LEVEL(Zahl von 1
-                // bis 3)]
+                String rolle = scan.next();
+                String abteil = scan.next();
+                int expertiseLvl = 1;
+                try {
+                    expertiseLvl = scan.nextInt();
+                } catch (NoSuchElementException e) {
+                    System.out.println("Es muss eine Zahl zwischen 1 und 3 angegeben werden.");
+                }
+                Mitarbeiter neueMitarbeiter = new Mitarbeiter(id, vname, name, rolle, abteil, expertiseLvl);
+                try {
+                    speicher.addMember(neueMitarbeiter);
+                } catch (ContainerException e) {
+                    System.out.println("Doppelte ID ist nicht erlaubt");
+                    break;
+                }
+                System.out.println(String.format("Mitarbeiter erfolgreich gespeichert.\n%s", neueMitarbeiter.toString()));
+            }
                 break;
             case "store":
                 try {
                     this.speicher.store();
+                    System.out.println("Erfolgreich gespeichert.");
                 } catch (PersistenceException e) {
                     e.printStackTrace();
                 }
@@ -60,10 +82,12 @@ public class UserDialog {
                 } else {
                     System.out.println("Falsche Eingabe: " + secoundInput);
                 }
+                System.out.println(String.format("Erfolgreich geladen. Mit dem %s modus", secoundInput));
             }
                 break;
             case "dump":
                 System.out.println(dump());
+                System.out.println("\nDUMP ERFOLGREICH AUSGEGEBEN");
                 break;
             case "search": {
                 String secoundInput = scan.next().toLowerCase();
@@ -72,6 +96,7 @@ public class UserDialog {
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
                 }
+                System.out.println("\nSUCHE ERFOLGREICH");
             }
                 break;
             case "exit":
@@ -79,14 +104,14 @@ public class UserDialog {
                 break;
             case "help":
                 System.out.println(getHelpMassage());
+                System.out.println("\nHILFE ERFOLGREICH AUSGEGBEN");
                 break;
             default:
                 scan.close();
-                throw new IllegalArgumentException();
+                System.out.println("Es muss ein gültige eingabe angegben werden.");
             }
         } while (!ende);
         scan.close();
-        System.out.println("Eingabe der Mitarbeiter Beendet");
     }
 
     private String dump() {
@@ -94,9 +119,9 @@ public class UserDialog {
         this.speicher.getCurrentList().sort(new MitarbeiterComperator());
         for (Mitarbeiter mitarbeiter : this.speicher.getCurrentList()) {
             out += String.format(
-                    "ID\tVorname\t\tNachname\tRolle\tAbteil\tExperties-Level%n%d\t%s\t%s\t%s\t%s\t%s%n-------------------------------------------------------------------------%n",
+                    "ID\t\tVorname\t\t\tNachname\t\tRolle\t\t\tAbteil%n%d\t\t%s\t\t\t%s\t\t%s\t\t\t%s%n---------------------------------------------------------------------------------------------------%n",
                     mitarbeiter.getID(), mitarbeiter.getVorname(), mitarbeiter.getNachname(), mitarbeiter.getRolle(),
-                    mitarbeiter.getAbteil(), mitarbeiter.getExperLvl());
+                    mitarbeiter.getAbteil());
         }
         return out;
     }
@@ -107,7 +132,7 @@ public class UserDialog {
         for (Mitarbeiter mitarbeiter : this.speicher.getCurrentList()) {
             if (mitarbeiter.getExperLvl() == searchKey) {
                 out += String.format(
-                        "ID\tVorname\t\tNachname\tRolle\tAbteil\tExperties-Level%n%d\t%s\t%s\t%s\t%s\t%s%n-------------------------------------------------------------------------%n",
+                        "ID\t\tVorname\t\t\tNachname\t\tRolle\t\t\tAbteil\t\t\tExperties-Level%n%d\t\t%s\t\t\t%s\t\t%s\t\t\t%s\t\t%s%n--------------------------------------------------------------------------------------------------------------------------------------------------%n",
                         mitarbeiter.getID(), mitarbeiter.getVorname(), mitarbeiter.getNachname(),
                         mitarbeiter.getRolle(), mitarbeiter.getAbteil(), mitarbeiter.getExperLvl());
             }
@@ -131,17 +156,5 @@ public class UserDialog {
 
                     HELP\t\t\t\t\t\t\t\t\t\t\tGibt beschreibung der befehle aus
                 """;
-    }
-
-    public static void main(String[] args) {
-        UserDialog ud = new UserDialog();
-        for (int i = 0; i < 10; i++) {
-            try {
-                ud.speicher.addMember(new Mitarbeiter(i, "Vorname" + i, "Nachname" + i, "Rolle" + i, "Abteil" + i, 1));
-            } catch (ContainerException e) {
-                e.printStackTrace();
-            }
-        }
-        System.out.println(ud.dump());
     }
 }
