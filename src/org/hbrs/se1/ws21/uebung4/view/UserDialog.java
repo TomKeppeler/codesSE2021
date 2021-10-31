@@ -17,8 +17,11 @@ public class UserDialog {
         this.speicher = Container.getInstance();
     }
 
-    public void startDialog(InputStream in) {
-        Scanner scan = new Scanner(in);
+    public Container<Mitarbeiter> getSpeicher() {
+        return speicher;
+    }
+
+    public void startDialog(Scanner scan) {
         boolean ende = false;
         String userInput = "";
         do {
@@ -30,6 +33,7 @@ public class UserDialog {
                     id = scan.nextInt();
                 } catch (NoSuchElementException e) {
                     System.out.println("Es muss eine Zahl angegeben werden.");
+                    break;
                 }
                 String vname = scan.next();
                 String name = scan.next();
@@ -46,6 +50,7 @@ public class UserDialog {
                     expertiseLvl = scan.nextInt();
                 } catch (NoSuchElementException e) {
                     System.out.println("Es muss eine Zahl zwischen 1 und 3 angegeben werden.");
+                    break;
                 }
                 Mitarbeiter neueMitarbeiter = new Mitarbeiter(id, vname, name, rolle, abteil, expertiseLvl);
                 try {
@@ -54,16 +59,18 @@ public class UserDialog {
                     System.out.println("Doppelte ID ist nicht erlaubt");
                     break;
                 }
-                System.out.println(String.format("Mitarbeiter erfolgreich gespeichert.\n%s", neueMitarbeiter.toString()));
+                System.out
+                        .println(String.format("Mitarbeiter erfolgreich gespeichert.\n%s", neueMitarbeiter.toString()));
             }
                 break;
             case "store":
                 try {
                     this.speicher.store();
-                    System.out.println("Erfolgreich gespeichert.");
                 } catch (PersistenceException e) {
-                    e.printStackTrace();
+                    System.out.println("Beim Speichern ist ein Fehler aufgetreten.");
+                    break;
                 }
+                System.out.println("Erfolgreich gespeichert.");
                 break;
             case "load": {
                 String secoundInput = scan.next().toLowerCase();
@@ -71,13 +78,15 @@ public class UserDialog {
                     try {
                         this.speicher.load(false);
                     } catch (PersistenceException e) {
-                        e.printStackTrace();
+                        System.out.println("Laden nicht erfolgreich");
+                        break;
                     }
                 } else if (secoundInput.equals("force")) {
                     try {
                         this.speicher.load(true);
                     } catch (PersistenceException e) {
-                        e.printStackTrace();
+                        System.out.println("Laden nicht erfolgreich");
+                        break;
                     }
                 } else {
                     System.out.println("Falsche Eingabe: " + secoundInput);
@@ -87,16 +96,15 @@ public class UserDialog {
                 break;
             case "dump":
                 System.out.println(dump());
-                System.out.println("\nDUMP ERFOLGREICH AUSGEGEBEN");
                 break;
             case "search": {
                 String secoundInput = scan.next().toLowerCase();
                 try {
                     System.out.println(dump(Integer.valueOf(secoundInput)));
                 } catch (NumberFormatException e) {
-                    e.printStackTrace();
+                    System.out.println("Es muss nach einer Mitarbeite ID (eine Ganzzahl) gesucht werden.");
+                    break;
                 }
-                System.out.println("\nSUCHE ERFOLGREICH");
             }
                 break;
             case "exit":
@@ -104,10 +112,8 @@ public class UserDialog {
                 break;
             case "help":
                 System.out.println(getHelpMassage());
-                System.out.println("\nHILFE ERFOLGREICH AUSGEGBEN");
                 break;
             default:
-                scan.close();
                 System.out.println("Es muss ein gültige eingabe angegben werden.");
             }
         } while (!ende);
@@ -123,7 +129,7 @@ public class UserDialog {
                     mitarbeiter.getID(), mitarbeiter.getVorname(), mitarbeiter.getNachname(), mitarbeiter.getRolle(),
                     mitarbeiter.getAbteil());
         }
-        return out;
+        return out.equals("") ? "Es wurden bisher keine Mitarbeiter eingetragen." : out;
     }
 
     private String dump(int searchKey) {
@@ -137,7 +143,7 @@ public class UserDialog {
                         mitarbeiter.getRolle(), mitarbeiter.getAbteil(), mitarbeiter.getExperLvl());
             }
         }
-        return out;
+        return out.equals("") ? String.format("Expertise-Level %d nicht vorhanden.", searchKey) : out;
     }
 
     private String getHelpMassage() {
