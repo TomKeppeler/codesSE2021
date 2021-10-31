@@ -7,16 +7,20 @@ import java.util.Scanner;
 import org.hbrs.se1.ws21.uebung4.controll.Container;
 import org.hbrs.se1.ws21.uebung4.controll.Mitarbeiter;
 import org.hbrs.se1.ws21.uebung4.controll.MitarbeiterComperator;
+import org.hbrs.se1.ws21.uebung4.controll.StoredPrintStream;
 import org.hbrs.se1.ws21.uebung4.controll.exceptions.ContainerException;
 import org.hbrs.se1.ws21.uebung4.controll.persistence.PersistenceException;
 
 public class UserDialog {
     private final Container<Mitarbeiter> speicher;
+    private StoredPrintStream stream = new StoredPrintStream(System.out);
 
     public UserDialog() {
         this.speicher = Container.getInstance();
     }
-
+    public StoredPrintStream getStream() {
+        return stream;
+    }
     public Container<Mitarbeiter> getSpeicher() {
         return speicher;
     }
@@ -24,6 +28,7 @@ public class UserDialog {
     public void startDialog(Scanner scan) {
         boolean ende = false;
         String userInput = "";
+
         do {
             userInput = scan.next().toLowerCase();
             switch (userInput) {
@@ -32,14 +37,14 @@ public class UserDialog {
                 try {
                     id = scan.nextInt();
                 } catch (NoSuchElementException e) {
-                    System.out.println("Es muss eine Zahl angegeben werden.");
+                    stream.println("Es muss eine Zahl angegeben werden.");
                     break;
                 }
                 String vname = scan.next();
                 String name = scan.next();
                 for (int i = 0; i < 10; i++) {
                     if (vname.contains(i + "") || name.contains(i + "")) {
-                        System.out.println("Der Name darf keine Zahl enthalten.");
+                        stream.println("Der Name darf keine Zahl enthalten.");
                         break;
                     }
                 }
@@ -49,28 +54,27 @@ public class UserDialog {
                 try {
                     expertiseLvl = scan.nextInt();
                 } catch (NoSuchElementException e) {
-                    System.out.println("Es muss eine Zahl zwischen 1 und 3 angegeben werden.");
+                    stream.println("Es muss eine Zahl zwischen 1 und 3 angegeben werden.");
                     break;
                 }
                 Mitarbeiter neueMitarbeiter = new Mitarbeiter(id, vname, name, rolle, abteil, expertiseLvl);
                 try {
                     speicher.addMember(neueMitarbeiter);
                 } catch (ContainerException e) {
-                    System.out.println("Doppelte ID ist nicht erlaubt");
+                    stream.println("Doppelte ID ist nicht erlaubt");
                     break;
                 }
-                System.out
-                        .println(String.format("Mitarbeiter erfolgreich gespeichert.\n%s", neueMitarbeiter.toString()));
+                stream.println(String.format("Mitarbeiter erfolgreich gespeichert.\n%s", neueMitarbeiter.toString()));
             }
                 break;
             case "store":
                 try {
                     this.speicher.store();
                 } catch (PersistenceException e) {
-                    System.out.println("Beim Speichern ist ein Fehler aufgetreten.");
+                    stream.println("Beim Speichern ist ein Fehler aufgetreten.");
                     break;
                 }
-                System.out.println("Erfolgreich gespeichert.");
+                stream.println("Erfolgreich gespeichert.");
                 break;
             case "load": {
                 String secoundInput = scan.next().toLowerCase();
@@ -78,31 +82,32 @@ public class UserDialog {
                     try {
                         this.speicher.load(false);
                     } catch (PersistenceException e) {
-                        System.out.println("Laden nicht erfolgreich");
+                        stream.println("Laden nicht erfolgreich");
                         break;
                     }
                 } else if (secoundInput.equals("force")) {
                     try {
                         this.speicher.load(true);
                     } catch (PersistenceException e) {
-                        System.out.println("Laden nicht erfolgreich");
+                        stream.println("Laden nicht erfolgreich");
                         break;
                     }
                 } else {
-                    System.out.println("Falsche Eingabe: " + secoundInput);
+                    stream.println("Falsche Eingabe: " + secoundInput);
+                    break;
                 }
-                System.out.println(String.format("Erfolgreich geladen. Mit dem %s modus", secoundInput));
+                stream.println(String.format("Erfolgreich geladen. Mit dem %s modus", secoundInput));
             }
                 break;
             case "dump":
-                System.out.println(dump());
+                stream.println(dump());
                 break;
             case "search": {
                 String secoundInput = scan.next().toLowerCase();
                 try {
-                    System.out.println(dump(Integer.valueOf(secoundInput)));
+                    stream.println(dump(Integer.valueOf(secoundInput)));
                 } catch (NumberFormatException e) {
-                    System.out.println("Es muss nach einer Mitarbeite ID (eine Ganzzahl) gesucht werden.");
+                    stream.println("Es muss nach einer Mitarbeite ID (eine Ganzzahl) gesucht werden.");
                     break;
                 }
             }
@@ -111,10 +116,10 @@ public class UserDialog {
                 ende = true;
                 break;
             case "help":
-                System.out.println(getHelpMassage());
+                stream.println(getHelpMassage());
                 break;
             default:
-                System.out.println("Es muss ein gültige eingabe angegben werden.");
+                stream.println("Es muss ein gültige eingabe angegben werden.");
             }
         } while (!ende);
         scan.close();
