@@ -48,19 +48,19 @@ public class Container<E extends Member> {
         }
         persistenceStrategy.openConnection();
         if(force){
-            speicher = (ArrayList<E>) persistenceStrategy.load();
+            speicher = (ArrayList<E>) this.persistenceStrategy.load();
         }else{
-            ArrayList<E> newList = (ArrayList<E>) persistenceStrategy.load();
+            ArrayList<E> newList = (ArrayList<E>) this.persistenceStrategy.load();
             for (E member : newList) {
                 try {
-                    addMember(member);
+                    this.addMember(member);
                 }catch (ContainerException e){}
             }
         }
         persistenceStrategy.closeConnection();
     }
     public void load() throws PersistenceException{
-        speicher = (ArrayList<E>) persistenceStrategy.load();
+        speicher = (ArrayList<E>) this.persistenceStrategy.load();
     }
     public void addMember(E member) throws ContainerException {
         if (member == null) {// NullPointerException abfangen.
