@@ -1,6 +1,5 @@
-package org.hbrs.se1.ws21.uebung4;
+package org.hbrs.se1.ws21.uebung4.test;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 import org.hbrs.se1.ws21.uebung1.control.GermanTranslator;

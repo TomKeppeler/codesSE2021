@@ -1,7 +1,5 @@
 package org.hbrs.se1.ws21.uebung4.view;
 
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
