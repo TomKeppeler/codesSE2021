@@ -17,7 +17,7 @@ public class TestUserDialog {
         userDialog = new UserDialog();
         enterCommands = "";
         Translator t = new GermanTranslator();
-        for (int i = 1; i <= 10; i++) {
+        for (int i = 1; i <= 100; i++) {
             enterCommands += String.format("enter %d Test Test Test%d Test%d %d%n", i, /*t.translateNumber(i), t.translateNumber(i),*/i, i, 2);
         }
         enterCommands += "dump\nstore\nexit\n";

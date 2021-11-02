@@ -5,6 +5,7 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import org.hbrs.se1.ws21.uebung4.controll.Container;
+import org.hbrs.se1.ws21.uebung4.controll.Expertise;
 import org.hbrs.se1.ws21.uebung4.controll.Mitarbeiter;
 import org.hbrs.se1.ws21.uebung4.controll.MitarbeiterComperator;
 import org.hbrs.se1.ws21.uebung4.controll.StoredPrintStream;
@@ -15,14 +16,20 @@ import org.hbrs.se1.ws21.uebung4.controll.persistence.PersistenceStrategyStream;
 public class UserDialog {
     private final Container<Mitarbeiter> speicher;
     private StoredPrintStream stream = new StoredPrintStream(System.out);
-
+    private Expertise expertise;
     public UserDialog() {
         this.speicher = Container.getInstance();
         this.speicher.setPersistenceStrategy(new PersistenceStrategyStream<>());
+        this.expertise = new Expertise();
+        this.expertise.setNewExpertise(1, "Beginner");
+        this.expertise.setNewExpertise(2, "Experte");
+        this.expertise.setNewExpertise(3, "Top-Performer");
     }
+
     public StoredPrintStream getStream() {
         return stream;
     }
+
     public Container<Mitarbeiter> getSpeicher() {
         return speicher;
     }
@@ -54,19 +61,19 @@ public class UserDialog {
                 int expertiseLvl = 1;
                 try {
                     expertiseLvl = scan.nextInt();
-                    if(expertiseLvl < 0 && expertiseLvl > 3){
-                        stream.println("Es muss eine Zahl zwischen 1 und 3 angegeben werden."); 
-                        break;  
+                    if (!(expertiseLvl > 0 && expertiseLvl < 4)) {
+                        stream.println("Es muss eine Zahl zwischen 1 und 3 angegeben werden.");
+                        break;
                     }
                 } catch (NoSuchElementException e) {
-                    stream.println("Es muss eine Zahl zwischen 1 und 3 angegeben werden.");
+                    stream.println("Es muss eine Zahl angegeben werden.");
                     break;
                 }
                 Mitarbeiter neueMitarbeiter = new Mitarbeiter(id, vname, name, rolle, abteil, expertiseLvl);
                 try {
                     speicher.addMember(neueMitarbeiter);
                 } catch (ContainerException e) {
-                    stream.println("Doppelte ID ist nicht erlaubt");
+                    stream.println("ID schon vorhanden.");
                     break;
                 }
                 stream.println(String.format("Mitarbeiter erfolgreich gespeichert.\n%s", neueMitarbeiter.toString()));
@@ -131,30 +138,33 @@ public class UserDialog {
     }
 
     private String dump() {
-        String out = "";
+        String out = String.format("%S%n|%-30S|%-30S|%-30S|%-30S|%-30S|%n%s%n",
+                    "|------------------------------|------------------------------|------------------------------|------------------------------|------------------------------|", "ID", "Vorname", "Nachname",
+                    "Rolle", "Abteil",
+                    "|------------------------------|------------------------------|------------------------------|------------------------------|------------------------------|");
         this.speicher.getCurrentList().sort(new MitarbeiterComperator());
         for (Mitarbeiter mitarbeiter : this.speicher.getCurrentList()) {
-            out += String.format(
-                    "ID\t\tVorname\t\t\tNachname\t\tRolle\t\t\tAbteil%n%d\t\t%s\t\t\t%s\t\t\t%s\t\t\t%s%n---------------------------------------------------------------------------------------------------%n",
-                    mitarbeiter.getID(), mitarbeiter.getVorname(), mitarbeiter.getNachname(), mitarbeiter.getRolle(),
-                    mitarbeiter.getAbteil());
+            out += String.format("|%-30s|%-30s|%-30s|%-30s|%-30s|%n%s%n", mitarbeiter.getID(), mitarbeiter.getVorname(), mitarbeiter.getNachname(),
+                    mitarbeiter.getRolle(), 
+                    mitarbeiter.getAbteil(),
+                    "|------------------------------|------------------------------|------------------------------|------------------------------|------------------------------|");
         }
         return out.equals("") ? "Es wurden bisher keine Mitarbeiter eingetragen." : out;
     }
 
     private String dump(int searchKey) {
-        String out = "";
+        String out = String.format("%S%n|%-30S|%-30S|%-30S|%-30S|%-30S|%-30S|%n%s%n",
+                "|------------------------------|------------------------------|------------------------------|------------------------------|------------------------------|------------------------------|",
+                "ID", "Vorname", "Nachname", "Rolle", "Abteil", "Experties-Level",
+                "|------------------------------|------------------------------|------------------------------|------------------------------|------------------------------|------------------------------|");
         this.speicher.getCurrentList().sort(new MitarbeiterComperator());
-        HashMap lvlTranslator = new HashMap<>();
-        lvlTranslator.put(1, "Beginner");
-        lvlTranslator.put(2, "Experte");
-        lvlTranslator.put(3, "Top-Performer");
+
         for (Mitarbeiter mitarbeiter : this.speicher.getCurrentList()) {
             if (mitarbeiter.getExperLvl() == searchKey) {
-                out += String.format(
-                        "ID\t\tVorname\t\t\tNachname\t\tRolle\t\t\tAbteil\t\t\tExperties-Level%n%d\t\t%s\t\t\t%s\t\t%s\t\t\t%s\t%s%n--------------------------------------------------------------------------------------------------------------------------------------------------%n",
-                        mitarbeiter.getID(), mitarbeiter.getVorname(), mitarbeiter.getNachname(),
-                        mitarbeiter.getRolle(), mitarbeiter.getAbteil(), lvlTranslator.get(mitarbeiter.getExperLvl()));
+                out += String.format("|%-30s|%-30s|%-30s|%-30s|%-30s|%-30s|%n%s%n", mitarbeiter.getID(),
+                        mitarbeiter.getVorname(), mitarbeiter.getNachname(), mitarbeiter.getRolle(),
+                        mitarbeiter.getAbteil(), expertise.getExpertisName(mitarbeiter.getExperLvl()),
+                        "|------------------------------|------------------------------|------------------------------|------------------------------|------------------------------|------------------------------|");
             }
         }
         return out.equals("") ? String.format("Expertise-Level %d nicht vorhanden.", searchKey) : out;

@@ -49,16 +49,12 @@ public class Container<E extends Member> {
         persistenceStrategy.openConnection();
         if(force){
             speicher = (ArrayList<E>) persistenceStrategy.load();
-            System.out.println("force");
         }else{
-            System.out.println("load");
             ArrayList<E> newList = (ArrayList<E>) persistenceStrategy.load();
             for (E member : newList) {
                 try {
                     addMember(member);
-                }catch (ContainerException e){
-                    String yo = "yo";
-                }
+                }catch (ContainerException e){}
             }
         }
         persistenceStrategy.closeConnection();

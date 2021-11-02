@@ -9,7 +9,7 @@ public class ScrumPlanung {
         userDialog.startDialog(new Scanner(System.in));
         System.out.println("Eingabe der Mitarbeiter Beendet");
         /*
-         * enter 1 Tom Keppeler leitung marketing 2
+         * enter 1 NeuTest NeuTest NeuTest NeuTest 2
          */
     }
 }
