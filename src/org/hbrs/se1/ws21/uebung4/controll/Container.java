@@ -59,7 +59,9 @@ public class Container<E extends Member> {
         }
         persistenceStrategy.closeConnection();
     }
-
+    public void load() throws PersistenceException{
+        speicher = (ArrayList<E>) persistenceStrategy.load();
+    }
     public void addMember(E member) throws ContainerException {
         if (member == null) {// NullPointerException abfangen.
             throw new IllegalArgumentException();

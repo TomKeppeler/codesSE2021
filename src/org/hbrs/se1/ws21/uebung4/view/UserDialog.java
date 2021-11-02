@@ -17,6 +17,7 @@ public class UserDialog {
     private final Container<Mitarbeiter> speicher;
     private StoredPrintStream stream = new StoredPrintStream(System.out);
     private Expertise expertise;
+
     public UserDialog() {
         this.speicher = Container.getInstance();
         this.speicher.setPersistenceStrategy(new PersistenceStrategyStream<>());
@@ -112,15 +113,23 @@ public class UserDialog {
             }
                 break;
             case "dump":
-                stream.println(dump());
+                if (this.speicher.size() < 1) {
+                    this.stream.println("Es wurden bisher keine Mitarbeiter eingetragen.");
+                } else {
+                    stream.println(dump());
+                }
                 break;
             case "search": {
                 String secoundInput = scan.next().toLowerCase();
-                try {
-                    stream.println(dump(Integer.valueOf(secoundInput)));
-                } catch (NumberFormatException e) {
-                    stream.println("Es muss nach einer Mitarbeite ID (eine Ganzzahl) gesucht werden.");
-                    break;
+                if (this.speicher.size() < 1) {
+                    this.stream.println("Es wurden bisher keine Mitarbeiter eingetragen.");
+                } else {
+                    try {
+                        stream.println(dump(Integer.valueOf(secoundInput)));
+                    } catch (NumberFormatException e) {
+                        stream.println("Es muss nach einer Mitarbeite ID (eine Ganzzahl) gesucht werden.");
+                        break;
+                    }
                 }
             }
                 break;
@@ -139,17 +148,16 @@ public class UserDialog {
 
     private String dump() {
         String out = String.format("%S%n|%-30S|%-30S|%-30S|%-30S|%-30S|%n%s%n",
-                    "|------------------------------|------------------------------|------------------------------|------------------------------|------------------------------|", "ID", "Vorname", "Nachname",
-                    "Rolle", "Abteil",
-                    "|------------------------------|------------------------------|------------------------------|------------------------------|------------------------------|");
+                "|------------------------------|------------------------------|------------------------------|------------------------------|------------------------------|",
+                "ID", "Vorname", "Nachname", "Rolle", "Abteil",
+                "|------------------------------|------------------------------|------------------------------|------------------------------|------------------------------|");
         this.speicher.getCurrentList().sort(new MitarbeiterComperator());
         for (Mitarbeiter mitarbeiter : this.speicher.getCurrentList()) {
-            out += String.format("|%-30s|%-30s|%-30s|%-30s|%-30s|%n%s%n", mitarbeiter.getID(), mitarbeiter.getVorname(), mitarbeiter.getNachname(),
-                    mitarbeiter.getRolle(), 
-                    mitarbeiter.getAbteil(),
+            out += String.format("|%-30s|%-30s|%-30s|%-30s|%-30s|%n%s%n", mitarbeiter.getID(), mitarbeiter.getVorname(),
+                    mitarbeiter.getNachname(), mitarbeiter.getRolle(), mitarbeiter.getAbteil(),
                     "|------------------------------|------------------------------|------------------------------|------------------------------|------------------------------|");
         }
-        return out.equals("") ? "Es wurden bisher keine Mitarbeiter eingetragen." : out;
+        return out;
     }
 
     private String dump(int searchKey) {
@@ -158,7 +166,6 @@ public class UserDialog {
                 "ID", "Vorname", "Nachname", "Rolle", "Abteil", "Experties-Level",
                 "|------------------------------|------------------------------|------------------------------|------------------------------|------------------------------|------------------------------|");
         this.speicher.getCurrentList().sort(new MitarbeiterComperator());
-
         for (Mitarbeiter mitarbeiter : this.speicher.getCurrentList()) {
             if (mitarbeiter.getExperLvl() == searchKey) {
                 out += String.format("|%-30s|%-30s|%-30s|%-30s|%-30s|%-30s|%n%s%n", mitarbeiter.getID(),
@@ -167,7 +174,7 @@ public class UserDialog {
                         "|------------------------------|------------------------------|------------------------------|------------------------------|------------------------------|------------------------------|");
             }
         }
-        return out.equals("") ? String.format("Expertise-Level %d nicht vorhanden.", searchKey) : out;
+        return out;
     }
 
     private String getHelpMassage() {
