@@ -6,7 +6,7 @@ import java.util.*;
 import org.hbrs.se1.ws21.uebung4.controll.Member;
 import org.hbrs.se1.ws21.uebung4.controll.persistence.PersistenceException.ExceptionType;
 
-public class PersistenceStrategyStream implements PersistenceStrategy<Member> {
+public class PersistenceStrategyStream<E extends Member> implements PersistenceStrategy<E> {
 
     // URL of file, in which the objects are stored
     private String location = "objects.ser";
@@ -47,7 +47,7 @@ public class PersistenceStrategyStream implements PersistenceStrategy<Member> {
     }
 
     @Override
-    public void save(List<Member> member) throws PersistenceException {
+    public void save(List<E> member) throws PersistenceException {
         try {
             FileOutputStream fos = new FileOutputStream(location);
             ObjectOutputStream outputFile = new ObjectOutputStream(fos);
@@ -61,7 +61,7 @@ public class PersistenceStrategyStream implements PersistenceStrategy<Member> {
     }
 
     @Override
-    public List<Member> load() throws PersistenceException {
+    public List<E> load() throws PersistenceException {
         try {
             FileInputStream fis = new FileInputStream(location);
             ObjectInputStream inputFile = new ObjectInputStream(fis);
@@ -69,7 +69,7 @@ public class PersistenceStrategyStream implements PersistenceStrategy<Member> {
             inputFile.close();
             fis.close();
             if (obj instanceof List<?>) {
-                return (List<Member>) obj;
+                return (List<E>) obj;
             }
         } catch (IOException | ClassNotFoundException cfe) {
             throw new PersistenceException(ExceptionType.ConnectionNotAvailable, cfe.getMessage());

@@ -10,6 +10,7 @@ import org.hbrs.se1.ws21.uebung4.controll.MitarbeiterComperator;
 import org.hbrs.se1.ws21.uebung4.controll.StoredPrintStream;
 import org.hbrs.se1.ws21.uebung4.controll.exceptions.ContainerException;
 import org.hbrs.se1.ws21.uebung4.controll.persistence.PersistenceException;
+import org.hbrs.se1.ws21.uebung4.controll.persistence.PersistenceStrategyStream;
 
 public class UserDialog {
     private final Container<Mitarbeiter> speicher;
@@ -17,6 +18,7 @@ public class UserDialog {
 
     public UserDialog() {
         this.speicher = Container.getInstance();
+        this.speicher.setPersistenceStrategy(new PersistenceStrategyStream<>());
     }
     public StoredPrintStream getStream() {
         return stream;
@@ -28,7 +30,6 @@ public class UserDialog {
     public void startDialog(Scanner scan) {
         boolean ende = false;
         String userInput = "";
-
         do {
             userInput = scan.next().toLowerCase();
             switch (userInput) {
@@ -130,7 +131,7 @@ public class UserDialog {
         this.speicher.getCurrentList().sort(new MitarbeiterComperator());
         for (Mitarbeiter mitarbeiter : this.speicher.getCurrentList()) {
             out += String.format(
-                    "ID\t\tVorname\t\t\tNachname\t\tRolle\t\t\tAbteil%n%d\t\t%s\t\t\t%s\t\t%s\t\t\t%s%n---------------------------------------------------------------------------------------------------%n",
+                    "ID\t\tVorname\t\t\tNachname\t\tRolle\t\t\tAbteil%n%d\t\t%s\t\t\t%s\t\t\t%s\t\t\t%s%n---------------------------------------------------------------------------------------------------%n",
                     mitarbeiter.getID(), mitarbeiter.getVorname(), mitarbeiter.getNachname(), mitarbeiter.getRolle(),
                     mitarbeiter.getAbteil());
         }
@@ -143,7 +144,7 @@ public class UserDialog {
         for (Mitarbeiter mitarbeiter : this.speicher.getCurrentList()) {
             if (mitarbeiter.getExperLvl() == searchKey) {
                 out += String.format(
-                        "ID\t\tVorname\t\t\tNachname\t\tRolle\t\t\tAbteil\t\t\tExperties-Level%n%d\t\t%s\t\t\t%s\t\t%s\t\t\t%s\t\t%s%n--------------------------------------------------------------------------------------------------------------------------------------------------%n",
+                        "ID\t\tVorname\t\t\tNachname\t\tRolle\t\t\tAbteil\t\t\tExperties-Level%n%d\t\t%s\t\t\t%s\t\t%s\t\t\t%s\t%s%n--------------------------------------------------------------------------------------------------------------------------------------------------%n",
                         mitarbeiter.getID(), mitarbeiter.getVorname(), mitarbeiter.getNachname(),
                         mitarbeiter.getRolle(), mitarbeiter.getAbteil(), mitarbeiter.getExperLvl());
             }
