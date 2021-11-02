@@ -1,6 +1,8 @@
 package org.hbrs.se1.ws21.uebung4.view;
 
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -54,6 +56,10 @@ public class UserDialog {
                 int expertiseLvl = 1;
                 try {
                     expertiseLvl = scan.nextInt();
+                    if(expertiseLvl < 0 && expertiseLvl > 3){
+                        stream.println("Es muss eine Zahl zwischen 1 und 3 angegeben werden."); 
+                        break;  
+                    }
                 } catch (NoSuchElementException e) {
                     stream.println("Es muss eine Zahl zwischen 1 und 3 angegeben werden.");
                     break;
@@ -141,12 +147,16 @@ public class UserDialog {
     private String dump(int searchKey) {
         String out = "";
         this.speicher.getCurrentList().sort(new MitarbeiterComperator());
+        HashMap lvlTranslator = new HashMap<>();
+        lvlTranslator.put(1, "Beginner");
+        lvlTranslator.put(2, "Experte");
+        lvlTranslator.put(3, "Top-Performer");
         for (Mitarbeiter mitarbeiter : this.speicher.getCurrentList()) {
             if (mitarbeiter.getExperLvl() == searchKey) {
                 out += String.format(
                         "ID\t\tVorname\t\t\tNachname\t\tRolle\t\t\tAbteil\t\t\tExperties-Level%n%d\t\t%s\t\t\t%s\t\t%s\t\t\t%s\t%s%n--------------------------------------------------------------------------------------------------------------------------------------------------%n",
                         mitarbeiter.getID(), mitarbeiter.getVorname(), mitarbeiter.getNachname(),
-                        mitarbeiter.getRolle(), mitarbeiter.getAbteil(), mitarbeiter.getExperLvl());
+                        mitarbeiter.getRolle(), mitarbeiter.getAbteil(), lvlTranslator.get(mitarbeiter.getExperLvl()));
             }
         }
         return out.equals("") ? String.format("Expertise-Level %d nicht vorhanden.", searchKey) : out;

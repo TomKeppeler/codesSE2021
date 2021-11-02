@@ -50,7 +50,14 @@ public class Container<E extends Member> {
         if(force){
             speicher = (ArrayList<E>) persistenceStrategy.load();
         }else{
-            speicher.addAll(persistenceStrategy.load());
+            ArrayList<E> newList = (ArrayList<E>) persistenceStrategy.load();
+            for (E member : newList) {
+                try {
+                    addMember(member);
+                } catch (ContainerException e) {
+                    
+                }
+            }
         }
         persistenceStrategy.closeConnection();
     }
