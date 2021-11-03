@@ -4,14 +4,14 @@ import java.util.HashMap;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-import org.hbrs.se1.ws21.uebung4.controll.Container;
-import org.hbrs.se1.ws21.uebung4.controll.Expertise;
-import org.hbrs.se1.ws21.uebung4.controll.Mitarbeiter;
-import org.hbrs.se1.ws21.uebung4.controll.MitarbeiterComperator;
-import org.hbrs.se1.ws21.uebung4.controll.StoredPrintStream;
-import org.hbrs.se1.ws21.uebung4.controll.exceptions.ContainerException;
-import org.hbrs.se1.ws21.uebung4.controll.persistence.PersistenceException;
-import org.hbrs.se1.ws21.uebung4.controll.persistence.PersistenceStrategyStream;
+import org.hbrs.se1.ws21.uebung4.control.Container;
+import org.hbrs.se1.ws21.uebung4.control.Expertise;
+import org.hbrs.se1.ws21.uebung4.control.Mitarbeiter;
+import org.hbrs.se1.ws21.uebung4.control.MitarbeiterComperator;
+import org.hbrs.se1.ws21.uebung4.control.StoredPrintStream;
+import org.hbrs.se1.ws21.uebung4.control.exceptions.ContainerException;
+import org.hbrs.se1.ws21.uebung4.control.persistence.PersistenceException;
+import org.hbrs.se1.ws21.uebung4.control.persistence.PersistenceStrategyStream;
 
 public class UserDialog {
     private final Container<Mitarbeiter> speicher;

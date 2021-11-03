@@ -1,7 +1,7 @@
 package org.hbrs.se1.ws21.uebung3.view;
 
-import org.hbrs.se1.ws21.uebung2.controll.exceptions.ContainerException;
-import org.hbrs.se1.ws21.uebung3.controll.Container;
+import org.hbrs.se1.ws21.uebung2.control.exceptions.ContainerException;
+import org.hbrs.se1.ws21.uebung3.control.Container;
 
 public class Client {
     public static void main(String[] args) {

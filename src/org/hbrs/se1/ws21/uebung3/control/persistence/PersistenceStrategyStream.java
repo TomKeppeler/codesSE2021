@@ -1,12 +1,22 @@
-package org.hbrs.se1.ws21.uebung4.controll.persistence;
+package org.hbrs.se1.ws21.uebung3.control.persistence;
 
-import java.io.*;
-import java.util.*;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.EOFException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-import org.hbrs.se1.ws21.uebung4.controll.Member;
-import org.hbrs.se1.ws21.uebung4.controll.persistence.PersistenceException.ExceptionType;
+import org.hbrs.se1.ws21.uebung3.control.Member;
+import org.hbrs.se1.ws21.uebung3.control.persistence.PersistenceException.ExceptionType;
 
-public class PersistenceStrategyStream<E extends Member> implements PersistenceStrategy<E> {
+public class PersistenceStrategyStream implements PersistenceStrategy<Member> {
 
     // URL of file, in which the objects are stored
     private String location = "objects.ser";
@@ -47,7 +57,7 @@ public class PersistenceStrategyStream<E extends Member> implements PersistenceS
     }
 
     @Override
-    public void save(List<E> member) throws PersistenceException {
+    public void save(List<Member> member) throws PersistenceException {
         try {
             FileOutputStream fos = new FileOutputStream(location);
             ObjectOutputStream outputFile = new ObjectOutputStream(fos);
@@ -61,7 +71,7 @@ public class PersistenceStrategyStream<E extends Member> implements PersistenceS
     }
 
     @Override
-    public List<E> load() throws PersistenceException {
+    public List<Member> load() throws PersistenceException {
         try {
             FileInputStream fis = new FileInputStream(location);
             ObjectInputStream inputFile = new ObjectInputStream(fis);
@@ -69,7 +79,7 @@ public class PersistenceStrategyStream<E extends Member> implements PersistenceS
             inputFile.close();
             fis.close();
             if (obj instanceof List<?>) {
-                return (List<E>) obj;
+                return (List<Member>) obj;
             }
         } catch (IOException | ClassNotFoundException cfe) {
             throw new PersistenceException(ExceptionType.ConnectionNotAvailable, cfe.getMessage());

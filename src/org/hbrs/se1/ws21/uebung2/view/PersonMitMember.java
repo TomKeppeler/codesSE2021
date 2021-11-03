@@ -2,7 +2,8 @@ package org.hbrs.se1.ws21.uebung2.view;
 
 import java.util.Date;
 import java.util.Random;
-import org.hbrs.se1.ws21.uebung2.controll.Member;
+
+import org.hbrs.se1.ws21.uebung2.control.Member;
 
 public class PersonMitMember implements Member{
     private String name;

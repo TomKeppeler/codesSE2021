@@ -1,10 +1,10 @@
-package org.hbrs.se1.ws21.uebung2.controll;
+package org.hbrs.se1.ws21.uebung2.control;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-import org.hbrs.se1.ws21.uebung2.controll.exceptions.ContainerException;
+import org.hbrs.se1.ws21.uebung2.control.exceptions.ContainerException;
 
 public class Container {
 

@@ -3,7 +3,7 @@ package org.hbrs.se1.ws21.uebung3.view;
 import java.io.Serializable;
 import java.util.Random;
 
-import org.hbrs.se1.ws21.uebung3.controll.Member;
+import org.hbrs.se1.ws21.uebung3.control.Member;
 
 public class AutoMitMember implements Member{
     private Integer anzahlAchsen;

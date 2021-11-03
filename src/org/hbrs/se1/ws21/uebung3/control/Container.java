@@ -1,12 +1,12 @@
-package org.hbrs.se1.ws21.uebung3.controll;
+package org.hbrs.se1.ws21.uebung3.control;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import org.hbrs.se1.ws21.uebung2.controll.exceptions.ContainerException;
-import org.hbrs.se1.ws21.uebung3.controll.persistence.*;
-import org.hbrs.se1.ws21.uebung3.controll.persistence.PersistenceException.ExceptionType;
+import org.hbrs.se1.ws21.uebung2.control.exceptions.ContainerException;
+import org.hbrs.se1.ws21.uebung3.control.persistence.*;
+import org.hbrs.se1.ws21.uebung3.control.persistence.PersistenceException.ExceptionType;
 
 public class Container {
     private static Container singleInstance = null;

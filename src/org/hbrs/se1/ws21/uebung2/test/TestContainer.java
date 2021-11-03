@@ -9,9 +9,9 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Date;
 
-import org.hbrs.se1.ws21.uebung2.controll.Container;
-import org.hbrs.se1.ws21.uebung2.controll.Member;
-import org.hbrs.se1.ws21.uebung2.controll.exceptions.ContainerException;
+import org.hbrs.se1.ws21.uebung2.control.Container;
+import org.hbrs.se1.ws21.uebung2.control.Member;
+import org.hbrs.se1.ws21.uebung2.control.exceptions.ContainerException;
 import org.hbrs.se1.ws21.uebung2.view.*;
 public class TestContainer {
     Container container;

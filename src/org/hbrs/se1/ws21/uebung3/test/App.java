@@ -1,10 +1,10 @@
 package org.hbrs.se1.ws21.uebung3.test;
 
-import org.hbrs.se1.ws21.uebung2.controll.exceptions.ContainerException;
-import org.hbrs.se1.ws21.uebung3.controll.Container;
-import org.hbrs.se1.ws21.uebung3.controll.Member;
-import org.hbrs.se1.ws21.uebung3.controll.persistence.PersistenceException;
-import org.hbrs.se1.ws21.uebung3.controll.persistence.PersistenceStrategyStream;
+import org.hbrs.se1.ws21.uebung2.control.exceptions.ContainerException;
+import org.hbrs.se1.ws21.uebung3.control.Container;
+import org.hbrs.se1.ws21.uebung3.control.Member;
+import org.hbrs.se1.ws21.uebung3.control.persistence.PersistenceException;
+import org.hbrs.se1.ws21.uebung3.control.persistence.PersistenceStrategyStream;
 import org.hbrs.se1.ws21.uebung3.view.AutoMitMember;
 
 public class App {

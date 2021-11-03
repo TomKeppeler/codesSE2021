@@ -1,4 +1,4 @@
-package org.hbrs.se1.ws21.uebung2.controll.exceptions;
+package org.hbrs.se1.ws21.uebung2.control.exceptions;
 
 public class ContainerException extends Exception {
     public ContainerException(){

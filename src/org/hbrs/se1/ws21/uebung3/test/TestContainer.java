@@ -6,10 +6,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Random;
 
-import org.hbrs.se1.ws21.uebung2.controll.exceptions.ContainerException;
-import org.hbrs.se1.ws21.uebung3.controll.*;
-import org.hbrs.se1.ws21.uebung3.controll.persistence.*;
-import org.hbrs.se1.ws21.uebung3.controll.persistence.PersistenceException.ExceptionType;
+import org.hbrs.se1.ws21.uebung2.control.exceptions.ContainerException;
+import org.hbrs.se1.ws21.uebung3.control.*;
+import org.hbrs.se1.ws21.uebung3.control.persistence.*;
+import org.hbrs.se1.ws21.uebung3.control.persistence.PersistenceException.ExceptionType;
 import org.hbrs.se1.ws21.uebung3.view.AutoMitMember;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
