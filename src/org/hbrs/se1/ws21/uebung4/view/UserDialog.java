@@ -44,24 +44,24 @@ public class UserDialog {
             case "enter": {
                 int id = 0;
                 try {
-                    id = Integer.parseInt(s)
+                    id = Integer.parseInt(userInput[1]);
                 } catch (NoSuchElementException e) {
                     stream.println("Es muss eine Zahl angegeben werden.");
                     break;
                 }
-                String vname = scan.next();
-                String name = scan.next();
+                String vname = userInput[2];
+                String name = userInput[3];
                 for (int i = 0; i < 10; i++) {
                     if (vname.contains(i + "") || name.contains(i + "")) {
                         stream.println("Der Name darf keine Zahl enthalten.");
                         break;
                     }
                 }
-                String rolle = scan.next();
-                String abteil = scan.next();
+                String rolle = userInput[4];
+                String abteil = userInput[5];
                 int expertiseLvl = 1;
                 try {
-                    expertiseLvl = scan.nextInt();
+                    expertiseLvl = Integer.parseInt(userInput[6]);
                     if (!(expertiseLvl > 0 && expertiseLvl < 4)) {
                         stream.println("Es muss eine Zahl zwischen 1 und 3 angegeben werden.");
                         break;
@@ -90,7 +90,7 @@ public class UserDialog {
                 stream.println("Erfolgreich gespeichert.");
                 break;
             case "load": {
-                String secoundInput = scan.next().toLowerCase();
+                String secoundInput = userInput[1];
                 if (secoundInput.equals("merge")) {
                     try {
                         this.speicher.load(false);
@@ -120,7 +120,7 @@ public class UserDialog {
                 }
                 break;
             case "search": {
-                String secoundInput = scan.next().toLowerCase();
+                String secoundInput = userInput[1].toLowerCase();
                 if (this.speicher.size() < 1) {
                     this.stream.println("Es wurden bisher keine Mitarbeiter eingetragen.");
                 } else {
@@ -178,20 +178,18 @@ public class UserDialog {
     }
 
     private String getHelpMassage() {
-        return """
-                    ENTER [ID] [VORNAME] [NACHNAME] [ROLLE] [ABTEIL] [EXPERTISEN-LEVEL(Zahl von 1 bis 3)]\tNeuen Mitarbeiter eintragen
-
-                    STORE\t\t\t\t\t\t\t\t\t\t\tSpeichert die Eintraege
-
-                    LOAD [MERGE/FORCE]\t\t\t\t\t\t\t\t\t\tMERGE: fuegt die geladenden eintrage an die vorhanden an. FORCE: Ueberschreibt die Eintraege
-
-                    DUMP\t\t\t\t\t\t\t\t\t\t\tEintraege werden nach ID sortiert ausgegeben (ohne Expertise)
-
-                    SEARCH [EXPERTISEN-LEVEL(Zahl von 1 bis 3)]\t\t\t\t\t\t\tAusgabe ist in Einfacher übersicht
-
-                    EXIT\t\t\t\t\t\t\t\t\t\t\tBeendet die Anwendung
-
-                    HELP\t\t\t\t\t\t\t\t\t\t\tGibt beschreibung der befehle aus
-                """;
+        String line = "|------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------|";
+        String out = line + "\n";
+        out += String.format(
+                        "|%-90s|%-100s|%n%s%n|%-90s|%-100s|%n%s%n|%-90s|%-100s|%n%s%n|%-90s|%-100s|%n%s%n|%-90s|%-100s|%n%s%n|%-90s|%-100s|%n%s%n|%-90s|%-100s|%n%s%n",
+                        "ENTER [ID] [VORNAME] [NACHNAME] [ROLLE] [ABTEIL] [EXPERTISEN-LEVEL(Zahl von 1 bis 3)]",
+                        "Neuen Mitarbeiter eintragen", line,
+                        "STORE", "Speichert die Eintraege", line,
+                         "LOAD [MERGE/FORCE]", "MERGE: fuegt die geladenden eintrage an die vorhanden an. FORCE: Ueberschreibt die Eintraege", line,
+                        "DUMP", "Eintraege werden nach ID sortiert ausgegeben (ohne Expertise)", line,
+                        "SEARCH [EXPERTISEN-LEVEL(Zahl von 1 bis 3)]", "Ausgabe ist in Einfacher übersicht", line,
+                        "EXIT", "Beendet die Anwendung", line,
+                        "HELP", "Gibt beschreibung der befehle aus", line);
+        return out;
     }
 }
