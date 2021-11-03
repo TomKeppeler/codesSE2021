@@ -37,14 +37,14 @@ public class UserDialog {
 
     public void startDialog(Scanner scan) {
         boolean ende = false;
-        String userInput = "";
+        String[] userInput;
         do {
-            userInput = scan.next().toLowerCase();
-            switch (userInput) {
+            userInput = scan.nextLine().split(" ");
+            switch (userInput[0].toLowerCase()) {
             case "enter": {
                 int id = 0;
                 try {
-                    id = scan.nextInt();
+                    id = Integer.parseInt(s)
                 } catch (NoSuchElementException e) {
                     stream.println("Es muss eine Zahl angegeben werden.");
                     break;
