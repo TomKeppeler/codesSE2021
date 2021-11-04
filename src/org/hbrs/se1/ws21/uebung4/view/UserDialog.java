@@ -16,15 +16,10 @@ import org.hbrs.se1.ws21.uebung4.control.persistence.PersistenceStrategyStream;
 public class UserDialog {
     private final Container<Mitarbeiter> speicher;
     private StoredPrintStream stream = new StoredPrintStream(System.out);
-    private Expertise expertise;
 
     public UserDialog() {
         this.speicher = Container.getInstance();
         this.speicher.setPersistenceStrategy(new PersistenceStrategyStream<>());
-        this.expertise = new Expertise();
-        this.expertise.setNewExpertise(1, "Beginner");
-        this.expertise.setNewExpertise(2, "Experte");
-        this.expertise.setNewExpertise(3, "Top-Performer");
     }
 
     public StoredPrintStream getStream() {
@@ -49,28 +44,44 @@ public class UserDialog {
                     stream.println("Es muss eine Zahl angegeben werden.");
                     break;
                 }
-                String vname = userInput[2];
-                String name = userInput[3];
+
                 for (int i = 0; i < 10; i++) {
-                    if (vname.contains(i + "") || name.contains(i + "")) {
+                    if (userInput[2].contains(i + "") || userInput[3].contains(i + "")) {
                         stream.println("Der Name darf keine Zahl enthalten.");
                         break;
                     }
                 }
-                String rolle = userInput[4];
-                String abteil = userInput[5];
-                int expertiseLvl = 1;
-                try {
-                    expertiseLvl = Integer.parseInt(userInput[6]);
-                    if (!(expertiseLvl > 0 && expertiseLvl < 4)) {
-                        stream.println("Es muss eine Zahl zwischen 1 und 3 angegeben werden.");
-                        break;
-                    }
-                } catch (NoSuchElementException e) {
-                    stream.println("Es muss eine Zahl angegeben werden.");
-                    break;
+
+                if (userInput[5].equals("null")) {
+                    userInput[5] = "";
                 }
-                Mitarbeiter neueMitarbeiter = new Mitarbeiter(id, vname, name, rolle, abteil, expertiseLvl);
+                boolean endeExpEingabe = false;
+                int i = 1, lvl = 0;
+                String bez = "";
+                Expertise expertise = new Expertise();
+                do {
+                    stream.println("Geben Sie einen Expertisen-Bezeichnung an.");
+                    bez = scan.next();
+                    stream.println("Geben Sie das Level an was der Mitarbeiter in dieser Expertise hat.");
+                    try {
+                        lvl = scan.nextInt();
+                    } catch (Exception e) {
+                        stream.println("Es muss eine Zahl angegeben werden.");
+                        continue;
+                    }
+                    if(!(lvl > 0 && lvl < 4)){
+                        stream.println("Das Level muss zwischen  1 und 3 sein.");
+                        continue;
+                    }
+                    expertise.setNewExpertise(lvl, bez);
+                    i++;
+                    if (i > 3) {
+                        endeExpEingabe = true;
+                    }
+                } while (!endeExpEingabe);
+
+                Mitarbeiter neueMitarbeiter = new Mitarbeiter(id, userInput[2], userInput[3], userInput[4],
+                        userInput[5], expertise);
                 try {
                     speicher.addMember(neueMitarbeiter);
                 } catch (ContainerException e) {
@@ -120,16 +131,10 @@ public class UserDialog {
                 }
                 break;
             case "search": {
-                String secoundInput = userInput[1].toLowerCase();
                 if (this.speicher.size() < 1) {
                     this.stream.println("Es wurden bisher keine Mitarbeiter eingetragen.");
                 } else {
-                    try {
-                        stream.println(dump(Integer.valueOf(secoundInput)));
-                    } catch (NumberFormatException e) {
-                        stream.println("Es muss nach einer Mitarbeite ID (eine Ganzzahl) gesucht werden.");
-                        break;
-                    }
+                    stream.println(dump(userInput[1].toLowerCase()));
                 }
             }
                 break;
@@ -160,19 +165,21 @@ public class UserDialog {
         return out;
     }
 
-    private String dump(int searchKey) {
-        String out = String.format("%S%n|%-30S|%-30S|%-30S|%-30S|%-30S|%-30S|%n%s%n",
-                "|------------------------------|------------------------------|------------------------------|------------------------------|------------------------------|------------------------------|",
-                "ID", "Vorname", "Nachname", "Rolle", "Abteil", "Experties-Level",
+    private String dump(String searchKey) {
+        String line = "|------------------------------|------------------------------|------------------------------|------------------------------|------------------------------|------------------------------|";
+        String out = String.format("%S%n|%-30S|%-30S|%-30S|%-30S|%-30S|%-30S|%n%s%n", line, "ID", "Vorname", "Nachname",
+                "Rolle", "Abteil", "Experties-Level",
                 "|------------------------------|------------------------------|------------------------------|------------------------------|------------------------------|------------------------------|");
         this.speicher.getCurrentList().sort(new MitarbeiterComperator());
         for (Mitarbeiter mitarbeiter : this.speicher.getCurrentList()) {
-            if (mitarbeiter.getExperLvl() == searchKey) {
-                out += String.format("|%-30s|%-30s|%-30s|%-30s|%-30s|%-30s|%n%s%n", mitarbeiter.getID(),
-                        mitarbeiter.getVorname(), mitarbeiter.getNachname(), mitarbeiter.getRolle(),
-                        mitarbeiter.getAbteil(), expertise.getExpertisName(mitarbeiter.getExperLvl()),
-                        "|------------------------------|------------------------------|------------------------------|------------------------------|------------------------------|------------------------------|");
+            for (String expBezeichnung : mitarbeiter.getExpertise()) {
+                if (expBezeichnung.equals(searchKey)) {
+                    out += String.format("|%-30s|%-30s|%-30s|%-30s|%-30s|%-30s|%n%s%n", mitarbeiter.getID(),
+                            mitarbeiter.getVorname(), mitarbeiter.getNachname(), mitarbeiter.getRolle(),
+                            mitarbeiter.getAbteil(), mitarbeiter.getExpertise().getExpertisLvl(searchKey), line);
+                }
             }
+
         }
         return out;
     }
@@ -181,15 +188,17 @@ public class UserDialog {
         String line = "|------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------|";
         String out = line + "\n";
         out += String.format(
-                        "|%-90s|%-100s|%n%s%n|%-90s|%-100s|%n%s%n|%-90s|%-100s|%n%s%n|%-90s|%-100s|%n%s%n|%-90s|%-100s|%n%s%n|%-90s|%-100s|%n%s%n|%-90s|%-100s|%n%s%n",
-                        "ENTER [ID] [VORNAME] [NACHNAME] [ROLLE] [ABTEIL] [EXPERTISEN-LEVEL(Zahl von 1 bis 3)]",
-                        "Neuen Mitarbeiter eintragen", line,
-                        "STORE", "Speichert die Eintraege", line,
-                         "LOAD [MERGE/FORCE]", "MERGE: fuegt die geladenden eintrage an die vorhanden an. FORCE: Ueberschreibt die Eintraege", line,
-                        "DUMP", "Eintraege werden nach ID sortiert ausgegeben (ohne Expertise)", line,
-                        "SEARCH [EXPERTISEN-LEVEL(Zahl von 1 bis 3)]", "Ausgabe ist in Einfacher übersicht", line,
-                        "EXIT", "Beendet die Anwendung", line,
-                        "HELP", "Gibt beschreibung der befehle aus", line);
+                "|%-90s|%-100s|%n%s%n|%-90s|%-100s|%n%s%n|%-90s|%-100s|%n%s%n|%-90s|%-100s|%n%s%n|%-90s|%-100s|%n%s%n|%-90s|%-100s|%n%s%n|%-90s|%-100s|%n%s%n",
+                
+                "ENTER [ID] [VORNAME] [NACHNAME] [ROLLE] [ABTEIL]",
+                "Neuen Mitarbeiter eintragen (Falls kein Abteil eingetragen werden soll gib null an).", line,
+                "STORE", "Speichert die Eintraege", line, 
+                "LOAD [MERGE/FORCE]", "MERGE: fuegt die geladenden eintrage an die vorhanden an. FORCE: Ueberschreibt die Eintraege", line,
+                "DUMP", "Eintraege werden nach ID sortiert ausgegeben (ohne Expertise)", line,
+                "SEARCH [EXPERTISEN-BEZEICHNUNG]", "Ausgabe ist in Einfacher übersicht", line,
+                "EXIT", "Beendet die Anwendung", line,
+                "HELP", "Gibt beschreibung der befehle aus", line);
+        
         return out;
     }
 }

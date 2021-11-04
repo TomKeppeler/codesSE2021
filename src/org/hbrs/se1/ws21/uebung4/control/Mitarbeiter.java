@@ -1,20 +1,20 @@
 package org.hbrs.se1.ws21.uebung4.control;
 
 public class Mitarbeiter implements Member {
-    Integer id;
-    String vorname;
-    String nachname;
-    String rolle;
-    String abteil;
-    int experLvl;
+    private Integer id;
+    private String vorname;
+    private String nachname;
+    private String rolle;
+    private String abteil;
+    private Expertise expertise;
 
-    public Mitarbeiter(Integer id, String vorname, String nachname, String rolle, String abteil, int experLvl) {
+    public Mitarbeiter(Integer id, String vorname, String nachname, String rolle, String abteil, Expertise expertise) {
         this.id = id;
         this.vorname = vorname;
         this.nachname = nachname;
         this.rolle = rolle;
         this.abteil = abteil;
-        this.experLvl = experLvl;
+        this.expertise = expertise;
     }
 
     @Override
@@ -25,7 +25,7 @@ public class Mitarbeiter implements Member {
             ", nachname='" + getNachname() + "'" +
             ", rolle='" + getRolle() + "'" +
             ", abteil='" + getAbteil() + "'" +
-            ", experLvl='" + getExperLvl() + "'" +
+            ", expertise='" + getExpertise() + "'" +
             "}";
     }
 
@@ -66,11 +66,11 @@ public class Mitarbeiter implements Member {
         this.abteil = abteil;
     }
 
-    public int getExperLvl() {
-        return this.experLvl;
+    public Expertise getExpertise() {
+        return this.expertise;
     }
 
-    public void setExperLvl(int experLvl) {
-        this.experLvl = experLvl;
+    public void setExpertise(Expertise expertise) {
+        this.expertise = expertise;
     }
 }
