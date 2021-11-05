@@ -55,16 +55,17 @@ public class UserDialog {
                 if (userInput[5].equals("null")) {
                     userInput[5] = "";
                 }
-                stream.println("Wollen sie Expertisen zum Mitarbeiter festlegen?\n('ja' oder 'nein' eingeben)");
-                String antwort = scan.next();
                 boolean endeExpEingabe = false;
-                if(antwort.equals("nein")){
-                    endeExpEingabe = true;
-                }
                 int i = 1, lvl = 0;
                 String bez = "";
+                String antwort = "";
                 Expertise expertise = new Expertise();
                 while (!endeExpEingabe) {
+                    stream.println("Wollen sie Expertisen zum Mitarbeiter festlegen?\n('ja' oder 'nein' eingeben)");
+                    antwort = scan.next();
+                    if (antwort.equals("nein")) {
+                        endeExpEingabe = true;
+                    }
                     stream.println("Geben Sie einen Expertisen-Bezeichnung an.");
                     bez = scan.next();
                     stream.println("Geben Sie das Level an was der Mitarbeiter in dieser Expertise hat.");
