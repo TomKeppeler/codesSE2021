@@ -40,7 +40,7 @@ public class UserDialog {
                 int id = 0;
                 try {
                     id = Integer.parseInt(userInput[1]);
-                } catch (NoSuchElementException e) {
+                } catch (NumberFormatException e) {
                     stream.println("Es muss eine Zahl angegeben werden.");
                     break;
                 }
@@ -60,12 +60,13 @@ public class UserDialog {
                 String bez = "";
                 String antwort = "";
                 Expertise expertise = new Expertise();
+                stream.println("Wollen sie Expertisen zum Mitarbeiter festlegen?\n('ja' oder 'nein' eingeben)");
+                antwort = scan.next();
+                if (antwort.equals("nein")) {
+                    endeExpEingabe = true;
+                }
                 while (!endeExpEingabe) {
-                    stream.println("Wollen sie Expertisen zum Mitarbeiter festlegen?\n('ja' oder 'nein' eingeben)");
-                    antwort = scan.next();
-                    if (antwort.equals("nein")) {
-                        endeExpEingabe = true;
-                    }
+                    
                     stream.println("Geben Sie einen Expertisen-Bezeichnung an.");
                     bez = scan.next();
                     stream.println("Geben Sie das Level an was der Mitarbeiter in dieser Expertise hat.");
@@ -82,6 +83,12 @@ public class UserDialog {
                     expertise.setNewExpertise(lvl, bez);
                     i++;
                     if (i > 3) {
+                        endeExpEingabe = true;
+                    }
+                    
+                    stream.println("Wollen sie Expertisen zum Mitarbeiter festlegen?\n('ja' oder 'nein' eingeben)");
+                    antwort = scan.next();
+                    if (antwort.equals("nein")) {
                         endeExpEingabe = true;
                     }
                 }

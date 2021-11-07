@@ -22,4 +22,9 @@ public class StoredPrintStream extends PrintStream {
         printList.add(line);
         super.println(line);
     }
+    @Override
+    public void print(String line) {
+        printList.add(line);
+        super.print(line);
+    }
 }
