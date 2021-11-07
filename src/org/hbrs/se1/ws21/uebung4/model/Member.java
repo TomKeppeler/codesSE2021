@@ -1,4 +1,4 @@
-package org.hbrs.se1.ws21.uebung4.control;
+package org.hbrs.se1.ws21.uebung4.model;
 
 import java.io.Serializable;
 

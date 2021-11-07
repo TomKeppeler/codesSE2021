@@ -1,10 +1,10 @@
-package org.hbrs.se1.ws21.uebung4.control.persistence;
+package org.hbrs.se1.ws21.uebung4.model.persistence;
 
 import java.io.*;
 import java.util.*;
 
-import org.hbrs.se1.ws21.uebung4.control.Member;
-import org.hbrs.se1.ws21.uebung4.control.persistence.PersistenceException.ExceptionType;
+import org.hbrs.se1.ws21.uebung4.model.Member;
+import org.hbrs.se1.ws21.uebung4.model.persistence.PersistenceException.ExceptionType;
 
 public class PersistenceStrategyStream<E extends Member> implements PersistenceStrategy<E> {
 

@@ -1,4 +1,4 @@
-package org.hbrs.se1.ws21.uebung4.control;
+package org.hbrs.se1.ws21.uebung4.model.mitarbeiter;
 
 import java.util.Comparator;
 

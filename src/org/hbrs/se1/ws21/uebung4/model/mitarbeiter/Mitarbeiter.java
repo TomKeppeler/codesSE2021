@@ -1,4 +1,6 @@
-package org.hbrs.se1.ws21.uebung4.control;
+package org.hbrs.se1.ws21.uebung4.model.mitarbeiter;
+
+import org.hbrs.se1.ws21.uebung4.model.Member;
 
 public class Mitarbeiter implements Member {
     private Integer id;

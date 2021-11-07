@@ -2,38 +2,70 @@ package org.hbrs.se1.ws21.uebung4.test;
 
 import java.util.Scanner;
 
-import org.hbrs.se1.ws21.uebung1.control.GermanTranslator;
-import org.hbrs.se1.ws21.uebung1.control.Translator;
-import org.hbrs.se1.ws21.uebung4.view.UserDialog;
+import org.hbrs.se1.ws21.uebung4.controller.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
 public class TestUserDialog {
-    UserDialog userDialog = new UserDialog();
+    InputDialog userDialog = new InputDialog();
     String enterCommands;
 
-    //@BeforeEach
-    public void setup(){
+    // @BeforeEach
+    public void setup() {
 
     }
-    public void helpTest(){
+
+    public void helpTest() {
         userDialog.startDialog(new Scanner("help\nexit\n"));
     }
-    //@Test
-    public void enterTest(){
+
+    // @Test
+    public void enterDumpStoreTest() {
         enterCommands = "";
-        Translator t = new GermanTranslator();
         for (int i = 1; i <= 100; i++) {
-            enterCommands += String.format("enter %d Test Test Test%d Test%d %d%n", i,
-                    /* t.translateNumber(i), t.translateNumber(i), */i, i, 2);
+            enterCommands += String.format("enter %d Test Test Test%d Test%d%nnein%n", i,
+                    /* t.translateNumber(i), t.translateNumber(i), */i, i);
         }
         enterCommands += "dump\nstore\nexit\n";
         userDialog.startDialog(new Scanner(enterCommands));
-        //userDialog.getStream().getPrintList().forEach(a -> System.out.println(a));
     }
+
+    public void enterDumpStoreLoadForceTest() {
+        enterCommands = "";
+        for (int i = 1; i <= 100; i++) {
+            enterCommands += String.format("load force%nenter %d Test Test Test%d Test%d%nnein%n", i+200,
+                    /* t.translateNumber(i), t.translateNumber(i), */i, i);
+        }
+        enterCommands += "dump\nstore\nexit\n";
+        userDialog.startDialog(new Scanner(enterCommands));
+    }
+    
+    public void enterDumpStoreLoadMergeTest() {
+        enterCommands = "";
+        for (int i = 1; i <= 100; i++) {
+            enterCommands += String.format("load merge%nenter %d Test Test Test%d Test%d%nnein%n", i+100,
+                    /* t.translateNumber(i), t.translateNumber(i), */i+100, i+100);
+        }
+        enterCommands += "dump\nstore\nexit\n";
+        userDialog.startDialog(new Scanner(enterCommands));
+    }
+
+    public void searchTest() {
+        enterCommands = "";
+        for (int i = 1; i <= 10; i++) {
+            enterCommands += String.format("enter %d Test Test Test%d Test%d%nja%njava%n2%nnein%n", i,
+                    /* t.translateNumber(i), t.translateNumber(i), */i, i);
+        }
+        enterCommands += "search java\nexit\n";
+        userDialog.startDialog(new Scanner(enterCommands));
+    }
+
     public static void main(String[] args) {
         TestUserDialog t = new TestUserDialog();
-        //t.enterTest();
-        t.helpTest();
+        // t.enterTest();
+        // t.helpTest();
+        // t.searchTest();
+        t.enterDumpStoreLoadForceTest();
+        t.enterDumpStoreLoadMergeTest();
     }
 }

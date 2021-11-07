@@ -1,12 +1,12 @@
-package org.hbrs.se1.ws21.uebung4.control;
+package org.hbrs.se1.ws21.uebung4.model;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import org.hbrs.se1.ws21.uebung4.control.persistence.*;
-import org.hbrs.se1.ws21.uebung4.control.persistence.PersistenceException.ExceptionType;
-import org.hbrs.se1.ws21.uebung4.control.persistence.exceptions.ContainerException;
+import org.hbrs.se1.ws21.uebung4.model.exceptions.ContainerException;
+import org.hbrs.se1.ws21.uebung4.model.persistence.*;
+import org.hbrs.se1.ws21.uebung4.model.persistence.PersistenceException.ExceptionType;
 
 public class Container<E extends Member> {
     private static Container singleInstance = null;
@@ -26,9 +26,9 @@ public class Container<E extends Member> {
         return persistenceStrategy;
     }
 
-    public static Container getInstance() {
+    public static <E extends Member> Container<E> getInstance() {
         if (singleInstance == null) {
-            singleInstance = new Container();
+            singleInstance = new Container<E>();
         }
         return singleInstance;
     }

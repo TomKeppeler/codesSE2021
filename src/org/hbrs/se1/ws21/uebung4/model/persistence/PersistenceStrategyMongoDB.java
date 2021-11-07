@@ -1,4 +1,4 @@
-package org.hbrs.se1.ws21.uebung4.control.persistence;
+package org.hbrs.se1.ws21.uebung4.model.persistence;
 
 import java.util.List;
 

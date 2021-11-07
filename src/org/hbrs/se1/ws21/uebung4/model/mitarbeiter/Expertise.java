@@ -1,9 +1,14 @@
-package org.hbrs.se1.ws21.uebung4.control;
+package org.hbrs.se1.ws21.uebung4.model.mitarbeiter;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Set;
 
-public class Expertise implements Iterable<String> {
+public class Expertise implements Iterable<String>, Serializable {
     private HashMap<Integer, String> expertiseLvl;
 
     public Expertise() {
@@ -25,7 +30,7 @@ public class Expertise implements Iterable<String> {
 
     public int getExpertisLvl(String expertisBezeichnung) {
         for (int i = 1; i < 4; i++) {
-            if(this.expertiseLvl.get(i).equals(expertisBezeichnung)){
+            if (this.expertiseLvl.getOrDefault(i, "").equals(expertisBezeichnung)) {
                 return i;
             }
         }
@@ -45,6 +50,8 @@ public class Expertise implements Iterable<String> {
     public Iterator<String> iterator() {
         return new Iterator<String>() {
             private int index = 0;
+            Object[] values = expertiseLvl.values().toArray();
+
             @Override
             public boolean hasNext() {
                 return index < expertiseLvl.size() && index < 3;
@@ -52,10 +59,10 @@ public class Expertise implements Iterable<String> {
 
             @Override
             public String next() {
-                if(!hasNext()){
+                if (!hasNext()) {
                     throw new IllegalArgumentException();
                 }
-                return expertiseLvl.get(index++);
+                return (String)values[index++];
             }
         };
     }
