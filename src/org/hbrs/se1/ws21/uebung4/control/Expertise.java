@@ -1,10 +1,7 @@
 package org.hbrs.se1.ws21.uebung4.control;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Objects;
 
 public class Expertise implements Iterable<String> {
     private HashMap<Integer, String> expertiseLvl;
