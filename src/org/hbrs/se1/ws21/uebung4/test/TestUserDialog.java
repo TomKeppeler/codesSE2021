@@ -60,11 +60,21 @@ public class TestUserDialog {
         userDialog.startDialog(new Scanner(enterCommands));
     }
 
+    public void dumpSearchTest() {
+        enterCommands = "";
+        for (int i = 1; i <= 10; i++) {
+            enterCommands += String.format("enter %d Test Test Test Test%d%nja%njava%n2%nnein%n", i,
+                    /* t.translateNumber(i), t.translateNumber(i), */i);
+        }
+        enterCommands += "dump Test\nexit\n";
+        userDialog.startDialog(new Scanner(enterCommands));
+    }
+
     public static void main(String[] args) {
         TestUserDialog t = new TestUserDialog();
                 // t.helpTest();
          t.searchTest();
-        // t.enterDumpStoreLoadForceTest();
+         //t.enterDumpStoreLoadForceTest();
          //t.enterDumpStoreLoadMergeTest();
     }
 }

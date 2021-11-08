@@ -29,6 +29,7 @@ public class InputDialog {
                 switch (userInput[0].toLowerCase()) {
                 case "enter": {
                     int id = 0;
+                    int noIDinput = 4;
                     if (userInput.length == 6){
                     try {
                         id = Integer.parseInt(userInput[1]);
@@ -36,6 +37,7 @@ public class InputDialog {
                         stream.println("Es muss eine Zahl angegeben werden.");
                         break;
                     }
+                    noIDinput = 5;
                 }else {
                     id = Mitarbeiter.getUniqueID();
                 }
@@ -46,8 +48,8 @@ public class InputDialog {
                         }
                     }
 
-                    if (userInput[5].equals("null")) {
-                        userInput[5] = "";
+                    if (userInput[noIDinput].equals("null")) {
+                        userInput[noIDinput] = "";
                     }
                     boolean endeExpEingabe = false;
                     int i = 1, lvl = 0;
@@ -85,7 +87,7 @@ public class InputDialog {
                     }
 
                     Mitarbeiter neueMitarbeiter = new Mitarbeiter(id, userInput[2], userInput[3], userInput[4],
-                            userInput[5], expertise);
+                            userInput[noIDinput], expertise);
                     try {
                         Container.getInstance().addMember(neueMitarbeiter);
                     } catch (ContainerException e) {
@@ -129,11 +131,15 @@ public class InputDialog {
                 }
                     break;
                 case "dump":
-
                     if (Container.getInstance().size() < 1) {
                         this.stream.println("Es wurden bisher keine Mitarbeiter eingetragen.");
                     } else {
-                        this.stream.dump(Container.getInstance());
+                        if(userInput.length > 1){
+                            this.stream.dump(Container.getInstance(), userInput[2], userInput[1]);
+                        }else{
+                            this.stream.dump(Container.getInstance());
+                        }
+                        
                     }
                     break;
                 case "search": {
