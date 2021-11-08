@@ -17,7 +17,7 @@ public class EmployeeView extends PrintStream {
         printList = new ArrayList<>();
     }
 
-    public void dump(String searchKey, Container<Mitarbeiter> speicher) {
+    public void search(String searchKey, Container<Mitarbeiter> speicher) {
         boolean keyExists = false;
         String line = "|------------------------------|------------------------------|------------------------------|------------------------------|------------------------------|------------------------------|";
         String out = String.format("%S%n|%-30S|%-30S|%-30S|%-30S|%-30S|%-30S|%n%s%n", line, "ID", "Vorname", "Nachname",
@@ -42,18 +42,88 @@ public class EmployeeView extends PrintStream {
         }
     }
 
-    public void dump(Container<Mitarbeiter> speicher) {
+    public void dump(Container<Mitarbeiter> speicher, String searchKey, String coloumn) {
+        switch (coloumn.toLowerCase()) {
+        case "abteil":{
+            ArrayList<Mitarbeiter> ret = new ArrayList<>();
+            speicher.getCurrentList().sort(new MitarbeiterComperator());
+            for (Mitarbeiter mitarbeiter : speicher.getCurrentList()) {
+                    if (mitarbeiter.getAbteil().equals(searchKey)) {
+                        ret.add(mitarbeiter);
+                    }
+            }
+            this.println(this.getTable(ret));
+        }
+            break;
+        case "rolle":{
+            ArrayList<Mitarbeiter> ret = new ArrayList<>();
+            speicher.getCurrentList().sort(new MitarbeiterComperator());
+            for (Mitarbeiter mitarbeiter : speicher.getCurrentList()) {
+                if (mitarbeiter.getRolle().equals(searchKey)) {
+                    ret.add(mitarbeiter);
+                }
+            }
+            this.println(this.getTable(ret));
+        }
+            break;
+        case "nachname":{
+            ArrayList<Mitarbeiter> ret = new ArrayList<>();
+            speicher.getCurrentList().sort(new MitarbeiterComperator());
+            for (Mitarbeiter mitarbeiter : speicher.getCurrentList()) {
+                if (mitarbeiter.getNachname().equals(searchKey)) {
+                    ret.add(mitarbeiter);
+                }
+            }
+            this.println(this.getTable(ret));
+        }
+            break;
+        case "vorname":{
+            ArrayList<Mitarbeiter> ret = new ArrayList<>();
+            speicher.getCurrentList().sort(new MitarbeiterComperator());
+            for (Mitarbeiter mitarbeiter : speicher.getCurrentList()) {
+                if (mitarbeiter.getVorname().equals(searchKey)) {
+                    ret.add(mitarbeiter);
+                }
+            }
+            this.println(this.getTable(ret));
+        }
+            break;
+        case "id": {
+            ArrayList<Mitarbeiter> ret = new ArrayList<>();
+            speicher.getCurrentList().sort(new MitarbeiterComperator());
+            for (Mitarbeiter mitarbeiter : speicher.getCurrentList()) {
+                if (mitarbeiter.getID().equals(searchKey)) {
+                    ret.add(mitarbeiter);
+                }
+            }
+            this.println(this.getTable(ret));
+        }
+
+            break;
+        default:
+            this.println("");
+            break;
+        }
+        speicher.getCurrentList().sort(new MitarbeiterComperator());
+        this.println(this.getTable((ArrayList<Mitarbeiter>) speicher.getCurrentList()));
+    }
+
+    private String getTable(ArrayList<Mitarbeiter> list) {
         String out = String.format("%S%n|%-30S|%-30S|%-30S|%-30S|%-30S|%n%s%n",
                 "|------------------------------|------------------------------|------------------------------|------------------------------|------------------------------|",
                 "ID", "Vorname", "Nachname", "Rolle", "Abteil",
                 "|------------------------------|------------------------------|------------------------------|------------------------------|------------------------------|");
-        speicher.getCurrentList().sort(new MitarbeiterComperator());
-        for (Mitarbeiter mitarbeiter : speicher.getCurrentList()) {
+        for (Mitarbeiter mitarbeiter : list) {
             out += String.format("|%-30s|%-30s|%-30s|%-30s|%-30s|%n%s%n", mitarbeiter.getID(), mitarbeiter.getVorname(),
                     mitarbeiter.getNachname(), mitarbeiter.getRolle(), mitarbeiter.getAbteil(),
                     "|------------------------------|------------------------------|------------------------------|------------------------------|------------------------------|");
         }
-        this.println(out);
+        return out;
+    }
+
+    public void dump(Container<Mitarbeiter> speicher) {
+        speicher.getCurrentList().sort(new MitarbeiterComperator());
+        this.println(this.getTable((ArrayList<Mitarbeiter>) speicher.getCurrentList()));
     }
 
     public void getHelpMassage() {

@@ -1,12 +1,8 @@
 package org.hbrs.se1.ws21.uebung4.model.mitarbeiter;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Set;
 
 public class Expertise implements Iterable<String>, Serializable {
     private HashMap<Integer, String> expertiseLvl;

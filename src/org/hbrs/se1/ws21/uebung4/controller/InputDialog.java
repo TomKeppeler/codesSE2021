@@ -4,11 +4,8 @@ import java.util.Scanner;
 
 import org.hbrs.se1.ws21.uebung4.model.Container;
 import org.hbrs.se1.ws21.uebung4.model.exceptions.ContainerException;
-import org.hbrs.se1.ws21.uebung4.model.mitarbeiter.Expertise;
-import org.hbrs.se1.ws21.uebung4.model.mitarbeiter.Mitarbeiter;
-import org.hbrs.se1.ws21.uebung4.model.mitarbeiter.MitarbeiterComperator;
-import org.hbrs.se1.ws21.uebung4.model.persistence.PersistenceException;
-import org.hbrs.se1.ws21.uebung4.model.persistence.PersistenceStrategyStream;
+import org.hbrs.se1.ws21.uebung4.model.mitarbeiter.*;
+import org.hbrs.se1.ws21.uebung4.model.persistence.*;
 import org.hbrs.se1.ws21.uebung4.view.EmployeeView;
 
 public class InputDialog {
@@ -32,13 +29,16 @@ public class InputDialog {
                 switch (userInput[0].toLowerCase()) {
                 case "enter": {
                     int id = 0;
+                    if (userInput.length == 6){
                     try {
                         id = Integer.parseInt(userInput[1]);
                     } catch (NumberFormatException e) {
                         stream.println("Es muss eine Zahl angegeben werden.");
                         break;
                     }
-
+                }else {
+                    id = Mitarbeiter.getUniqueID();
+                }
                     for (int i = 0; i < 10; i++) {
                         if (userInput[2].contains(i + "") || userInput[3].contains(i + "")) {
                             stream.println("Der Name darf keine Zahl enthalten.");
@@ -129,6 +129,7 @@ public class InputDialog {
                 }
                     break;
                 case "dump":
+
                     if (Container.getInstance().size() < 1) {
                         this.stream.println("Es wurden bisher keine Mitarbeiter eingetragen.");
                     } else {
@@ -139,7 +140,7 @@ public class InputDialog {
                     if (Container.getInstance().size() < 1) {
                         this.stream.println("Es wurden bisher keine Mitarbeiter eingetragen.");
                     } else {
-                        this.stream.dump(userInput[1].toLowerCase(), Container.getInstance());
+                        this.stream.search(userInput[1].toLowerCase(), Container.getInstance());
                     }
                 }
                     break;

@@ -62,10 +62,9 @@ public class TestUserDialog {
 
     public static void main(String[] args) {
         TestUserDialog t = new TestUserDialog();
-        // t.enterTest();
-        // t.helpTest();
-        // t.searchTest();
-        t.enterDumpStoreLoadForceTest();
-        t.enterDumpStoreLoadMergeTest();
+                // t.helpTest();
+         t.searchTest();
+        // t.enterDumpStoreLoadForceTest();
+         //t.enterDumpStoreLoadMergeTest();
     }
 }

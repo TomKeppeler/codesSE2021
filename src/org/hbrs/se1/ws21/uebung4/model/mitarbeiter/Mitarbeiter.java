@@ -9,7 +9,7 @@ public class Mitarbeiter implements Member {
     private String rolle;
     private String abteil;
     private Expertise expertise;
-
+    private static int uniqueID = 100000;
     public Mitarbeiter(Integer id, String vorname, String nachname, String rolle, String abteil, Expertise expertise) {
         this.id = id;
         this.vorname = vorname;
@@ -18,7 +18,11 @@ public class Mitarbeiter implements Member {
         this.abteil = abteil;
         this.expertise = expertise;
     }
-
+    
+    public static int getUniqueID(){
+        return uniqueID++;
+    }
+    
     @Override
     public String toString() {
         return "{" +
