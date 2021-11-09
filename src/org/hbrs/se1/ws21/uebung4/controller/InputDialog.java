@@ -161,7 +161,7 @@ public class InputDialog {
                     ende = true;
                     break;
                 case "help":
-                    this.stream.getHelpMassage();
+                    this.stream.getHelpMessage();
                     break;
                 default:
                     stream.println("Es muss ein gültige eingabe angegben werden.");

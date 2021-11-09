@@ -131,7 +131,7 @@ public class EmployeeView extends PrintStream {
         this.println(this.getTable((ArrayList<Mitarbeiter>) speicher.getCurrentList()));
     }
 
-    public void getHelpMassage() {
+    public void getHelpMessage() {
         String line = "|------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------|";
         String out = line + "\n";
         out += String.format(
