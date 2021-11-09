@@ -30,17 +30,17 @@ public class InputDialog {
                 case "enter": {
                     int id = 0;
                     int noIDinput = 4;
-                    if (userInput.length == 6){
-                    try {
-                        id = Integer.parseInt(userInput[1]);
-                    } catch (NumberFormatException e) {
-                        stream.println("Es muss eine Zahl angegeben werden.");
-                        break;
+                    if (userInput.length == 6) {
+                        try {
+                            id = Integer.parseInt(userInput[1]);
+                        } catch (NumberFormatException e) {
+                            stream.println("Es muss eine Zahl angegeben werden.");
+                            break;
+                        }
+                        noIDinput = 5;
+                    } else {
+                        id = Mitarbeiter.getUniqueID();
                     }
-                    noIDinput = 5;
-                }else {
-                    id = Mitarbeiter.getUniqueID();
-                }
                     for (int i = 0; i < 10; i++) {
                         if (userInput[2].contains(i + "") || userInput[3].contains(i + "")) {
                             stream.println("Der Name darf keine Zahl enthalten.");
@@ -54,26 +54,32 @@ public class InputDialog {
                     boolean endeExpEingabe = false;
                     int i = 1, lvl = 0;
                     String bez = "";
+                    String tmp = "";
                     Expertise expertise = new Expertise();
                     stream.println("Wollen sie Expertisen zum Mitarbeiter festlegen?\n('ja' oder 'nein' eingeben)");
                     if (scan.next().trim().equals("nein")) {
                         endeExpEingabe = true;
                     }
+                    boolean isNumber = false;
                     while (!endeExpEingabe) {
 
                         stream.println("Geben Sie einen Expertisen-Bezeichnung an.");
                         bez = scan.next();
                         stream.println("Geben Sie das Level an was der Mitarbeiter in dieser Expertise hat.");
-                        try {
-                            lvl = scan.nextInt();
-                        } catch (Exception e) {
-                            stream.println("Es muss eine Zahl angegeben werden.");
-                            continue;
-                        }
-                        if (!(lvl > 0 && lvl < 4)) {
-                            stream.println("Das Level muss zwischen  1 und 3 sein.");
-                            continue;
-                        }
+                        do {
+                            tmp = scan.next();
+                            try {
+                                lvl = Integer.parseInt(tmp);
+                            } catch (NumberFormatException e) {
+                                stream.println("Es muss eine Zahl angegeben werden.");
+                                continue;
+                            }
+                            if (!(lvl > 0 && lvl < 4)) {
+                                stream.println("Das Level muss zwischen  1 und 3 sein.");
+                                continue;
+                            }
+                            isNumber = true;
+                        } while (!isNumber);
                         expertise.setNewExpertise(lvl, bez);
                         i++;
                         if (i > 3) {
@@ -81,6 +87,7 @@ public class InputDialog {
                         }
 
                         stream.println("Wollen sie Expertisen zum Mitarbeiter festlegen?\n('ja' oder 'nein' eingeben)");
+
                         if (scan.next().trim().equals("nein")) {
                             endeExpEingabe = true;
                         }
@@ -134,12 +141,12 @@ public class InputDialog {
                     if (Container.getInstance().size() < 1) {
                         this.stream.println("Es wurden bisher keine Mitarbeiter eingetragen.");
                     } else {
-                        if(userInput.length > 1){
+                        if (userInput.length > 1) {
                             this.stream.dump(Container.getInstance(), userInput[2], userInput[1]);
-                        }else{
+                        } else {
                             this.stream.dump(Container.getInstance());
                         }
-                        
+
                     }
                     break;
                 case "search": {

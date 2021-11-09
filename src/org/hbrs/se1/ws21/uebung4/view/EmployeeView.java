@@ -44,44 +44,44 @@ public class EmployeeView extends PrintStream {
 
     public void dump(Container<Mitarbeiter> speicher, String searchKey, String coloumn) {
         switch (coloumn.toLowerCase()) {
-        case "abteil":{
+        case "abteil": {
             ArrayList<Mitarbeiter> ret = new ArrayList<>();
             speicher.getCurrentList().sort(new MitarbeiterComperator());
             for (Mitarbeiter mitarbeiter : speicher.getCurrentList()) {
-                    if (mitarbeiter.getAbteil().equals(searchKey)) {
-                        ret.add(mitarbeiter);
-                    }
-            }
-            this.println(this.getTable(ret));
-        }
-            break;
-        case "rolle":{
-            ArrayList<Mitarbeiter> ret = new ArrayList<>();
-            speicher.getCurrentList().sort(new MitarbeiterComperator());
-            for (Mitarbeiter mitarbeiter : speicher.getCurrentList()) {
-                if (mitarbeiter.getRolle().equals(searchKey)) {
+                if (mitarbeiter.getAbteil().equalsIgnoreCase(searchKey)) {
                     ret.add(mitarbeiter);
                 }
             }
             this.println(this.getTable(ret));
         }
             break;
-        case "nachname":{
+        case "rolle": {
             ArrayList<Mitarbeiter> ret = new ArrayList<>();
             speicher.getCurrentList().sort(new MitarbeiterComperator());
             for (Mitarbeiter mitarbeiter : speicher.getCurrentList()) {
-                if (mitarbeiter.getNachname().equals(searchKey)) {
+                if (mitarbeiter.getRolle().equalsIgnoreCase(searchKey)) {
                     ret.add(mitarbeiter);
                 }
             }
             this.println(this.getTable(ret));
         }
             break;
-        case "vorname":{
+        case "nachname": {
             ArrayList<Mitarbeiter> ret = new ArrayList<>();
             speicher.getCurrentList().sort(new MitarbeiterComperator());
             for (Mitarbeiter mitarbeiter : speicher.getCurrentList()) {
-                if (mitarbeiter.getVorname().equals(searchKey)) {
+                if (mitarbeiter.getNachname().equalsIgnoreCase(searchKey)) {
+                    ret.add(mitarbeiter);
+                }
+            }
+            this.println(this.getTable(ret));
+        }
+            break;
+        case "vorname": {
+            ArrayList<Mitarbeiter> ret = new ArrayList<>();
+            speicher.getCurrentList().sort(new MitarbeiterComperator());
+            for (Mitarbeiter mitarbeiter : speicher.getCurrentList()) {
+                if (mitarbeiter.getVorname().equalsIgnoreCase(searchKey)) {
                     ret.add(mitarbeiter);
                 }
             }
@@ -91,10 +91,15 @@ public class EmployeeView extends PrintStream {
         case "id": {
             ArrayList<Mitarbeiter> ret = new ArrayList<>();
             speicher.getCurrentList().sort(new MitarbeiterComperator());
-            for (Mitarbeiter mitarbeiter : speicher.getCurrentList()) {
-                if (mitarbeiter.getID().equals(searchKey)) {
-                    ret.add(mitarbeiter);
+            try {
+                for (Mitarbeiter mitarbeiter : speicher.getCurrentList()) {
+                    if (mitarbeiter.getID() == Integer.parseInt(searchKey)) {
+                        ret.add(mitarbeiter);
+                    }
                 }
+            } catch (NumberFormatException e) {
+                this.println("ID muss eine Ganzzahl sein");
+                break;
             }
             this.println(this.getTable(ret));
         }
@@ -136,7 +141,7 @@ public class EmployeeView extends PrintStream {
                 "Neuen Mitarbeiter eintragen (Falls kein Abteil eingetragen werden soll gib null an).", line, "STORE",
                 "Speichert die Eintraege", line, "LOAD [MERGE/FORCE]",
                 "MERGE: fuegt die geladenden eintrage an die vorhanden an. FORCE: Ueberschreibt die Eintraege", line,
-                "DUMP", "Eintraege werden nach ID sortiert ausgegeben (ohne Expertise)", line,
+                "DUMP [SPALTE] [SUCHEWORT]", "Eintraege werden nach ID sortiert ausgegeben (ohne Expertise)", line,
                 "SEARCH [EXPERTISEN-BEZEICHNUNG]", "Ausgabe ist in Einfacher übersicht", line, "EXIT",
                 "Beendet die Anwendung", line, "HELP", "Gibt beschreibung der befehle aus", line);
 
