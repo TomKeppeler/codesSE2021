@@ -22,7 +22,7 @@ public class GermanTranslator implements Translator {
 	 */
 	public String translateNumber( int number ) {
 		// [ihr Source Code aus Übung 1-2]
-		return uebersetzteZahlen.getOrDefault(number, String.format("Übersetzung der Zahl %d nicht möglich (%.1f)", number, version));
+		return uebersetzteZahlen.getOrDefault(number, "Übersetzung der Zahl " + number + " nicht möglich (" + Translator.version + ")");
 	}
 
 	/**
