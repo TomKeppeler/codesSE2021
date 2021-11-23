@@ -8,6 +8,7 @@ public class ScrumPlanung {
         System.out.println("Eingabe der Mitarbeiter:");
         userDialog.startDialog(new Scanner(System.in));
         System.out.println("Eingabe der Mitarbeiter Beendet");
+        int i = 0;
         /*
          * enter 1 NeuTest NeuTest NeuTest NeuTest 2
          */
