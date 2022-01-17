@@ -1,5 +1,5 @@
-package org.hbrs.se1.ws21.uebung11.test;
-
+package org.hbrs.se1.ws21.uebung11;
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -20,7 +20,7 @@ public class MyPrettyRectangleTest {
 	//
 	@BeforeEach
 	public void setUp() throws Exception { 
-		// 
+		//
 		//     +-----------+   +---+
 		//     |         r |   | s |
 		// +---+---+---+   |   |   |
@@ -65,7 +65,7 @@ public class MyPrettyRectangleTest {
 	@Test
 	public void testGetCenter(){
 		// Erster Test, um die Korrektheit der Methode getCenter() zu ueberpruefen
-		assertEquals( new MyPoint(1.5, 2.0), left.getCenter() );
+		assertEquals(new MyPoint(1.5, 2.0), left.getCenter());
 		
 		// Hier sollten sie die weiteren Tests einfuegen, welche die errechneten Mittelpunkte der Rechtecke 
 		// right, middle und somewhere mit den tatsaechlichen Mittelpunkten vergleicht.
@@ -92,11 +92,11 @@ public class MyPrettyRectangleTest {
 		// Weitere Infos: http://stackoverflow.com/questions/7554281/junit-assertions-make-the-assertion-between-floats
         //
         // [ihr Code]
-
+		assertEquals(2, left.getArea());
+		assertEquals(4, right.getArea());
 	}
+	
 
-	
-	
 	/*
 	 * Methode zum Testen einer Methode der Klasse MyPrettyRectangle, welche den Umfang eines Rechtecks berechnet
 	 * (Ergebnis: Wert in Zentimeter, cm)
@@ -112,7 +112,10 @@ public class MyPrettyRectangleTest {
 		// Weitere Infos: http://stackoverflow.com/questions/7554281/junit-assertions-make-the-assertion-between-floats
 		//
         // [ihr Code]
-				
+		assertEquals(4, left.getPerimeter());
+		assertEquals(7, left.getPerimeter());
+		assertEquals(4, left.getPerimeter());
+		
 	}
 	
 	/*
@@ -128,7 +131,7 @@ public class MyPrettyRectangleTest {
 		// [ihr Code]
 		MyPrettyRectangle other = left;
 
-		
+		assertTrue(left.sameIdentity(other));
 		// Bitte drei Assertions hinzufuegen, um die Gleichheit von Rechteck-Objekten zu ueberpruefen. Bitte nur die Assertion 
 		// assertTrue verwenden:
         //
@@ -155,9 +158,9 @@ public class MyPrettyRectangleTest {
 	public void testGetBoundingBox( ) {
 		
 		MyPrettyRectangle[] rect = {middle, right, somewhere };
+		assertEquals(middle, BoundingBoxFactory.getboundingBox(rect));
 		
-		
-		// Hier sollten sie einen Test einfuegen, der zunaechst mit der Klasse BoundingBoxFactory auf 
+		// Hier sollten sie einen Test einfuerecten, der zunaechst mit der Klasse BoundingBoxFactory auf 
 		// Basis des o.g. Array die Bounding Box berechnet.
 		// Testen sie die so erhaltene Bounding Box anhand eines SOLL / IST Vergleichs.
 		// Die Methode der Klasse BoundingBoxFactory sollten sie selbst definieren und implementieren.
